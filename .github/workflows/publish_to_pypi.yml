@@ -36,6 +36,10 @@ jobs:
       - name: Build and package
         run: |
           python -m build
+          version=$(ls materials-compendium-*.whl | sed -E 's/materials-compendium-(.*?)-py3-none-any.whl/\1/')
+          mv materials-compendium-$version-py3-none-any.whl materials-compendium-$version-$(python3 -c 'import sys; print(f"py{sys.version_info.major}.{sys.version_info.minor}")')-$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m).whl
+
+
 
       - name: Publish package to PyPI
         if: success()
@@ -43,4 +47,4 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
-          twine upload --repository-url https://test.pypi.org/legacy/ dist/*${{ matrix.python }}-${{ matrix.os }}-*
+          twine upload --repository-url https://test.pypi.org/legacy/ dist/*
