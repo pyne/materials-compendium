@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python: ['3.7', '3.8', '3.9', '3.10', '3.11']
+        python: ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
     runs-on: ${{ matrix.os }}
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Build and package
         run: |
-          python -m build 
+          python -m build
 
       - name: Publish package to PyPI
         if: success()
@@ -43,4 +43,4 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
-          twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+          twine upload --repository-url https://test.pypi.org/legacy/ dist/*${{ matrix.python }}-${{ matrix.os }}-*
