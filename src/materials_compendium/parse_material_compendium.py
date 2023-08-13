@@ -401,7 +401,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 json_file_path = os.path.join(current_directory, "MaterialsCompendium.json")
 
 # Read the JSON data from the file
-with open(json_file_path, "r") as file:
+with open(json_file_path, "r", encoding='utf-8') as file:
     jsonstring = file.read()
 
 # Convert the JSON data into a Python dictionary
