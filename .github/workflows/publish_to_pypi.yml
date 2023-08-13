@@ -1,6 +1,9 @@
 name: Publish to PyPI
 
 on:
+  # allows running workflows manually
+  workflow_dispatch:
+
   release:
     types:
       - created
