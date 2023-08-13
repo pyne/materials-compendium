@@ -53,3 +53,4 @@ where = ["src"]
 
 # Setuptools SCM Configuration
 [tool.setuptools_scm]
+version = "{version}"
