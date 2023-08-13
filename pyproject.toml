@@ -1,0 +1,55 @@
+# Build System Configuration
+[build-system]
+requires = ["setuptools>=61", "setuptools_scm[toml]>=6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Project Metadata
+[project]
+name = "materials-compendium"
+dynamic = ["version"]
+authors = [{ name = "Ahnaf Tahmid Chowdhury", email = "tahmid@nse.mist.ac.bd" }]
+license = { file = "LICENSE" }
+description = "Python tools for processing the PNNL Materials Compendium"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD 2-Clause License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.7"
+dependencies = []
+
+
+# Optional Dependencies
+[project.optional-dependencies]
+test = ["pytest"]
+docs = ["sphinx"]
+
+# Project URLs
+[project.urls]
+"Bug Tracker" = "https://github.com/pyne/materials-compendium/issues"
+"Source Code" = "https://github.com/pyne/materials-compendium"
+
+# Setuptools Configuration
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"src" = ["*.json"]
+
+# Setuptools SCM Configuration
+[tool.setuptools_scm]
