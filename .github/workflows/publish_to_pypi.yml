@@ -35,7 +35,7 @@ jobs:
 
       - name: Build and package
         run: |
-          python -m build --sdist
+          python -m build 
 
       - name: Publish package to PyPI
         if: success()
