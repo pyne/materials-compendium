@@ -1,5 +1,5 @@
 import pytest
-from materials_compendium.materials_compendium import Root, Datum, Element, Isotope, Contact, Mol, MaterialsCompendium
+from materials_compendium.parse_material_compendium import Root, Datum, Element, Isotope, Contact, Mol, MaterialsCompendium
 from materials_compendium.utils import (
     ContactInfo,
     MolsInfo,

@@ -3,7 +3,7 @@ Separate classes and functions to perform specific tasks
 to retrieve specific information from the Materials Compendium
 """
 import difflib
-from .materials_compendium import (
+from .parse_material_compendium import (
     MaterialsCompendium,
     Datum,
     Isotope,
