@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v4
@@ -33,7 +35,7 @@ jobs:
 
       - name: Build and package
         run: |
-          python -m build
+          python -m build --sdist
 
       - name: Publish package to PyPI
         if: success()
