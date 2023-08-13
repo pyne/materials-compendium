@@ -1,6 +1,6 @@
 import pytest
-from pyne.pnnl.materials_compendium import Root, Datum, Element, Isotope, Contact, Mol, MaterialsCompendium
-from pyne.pnnl.utils import (
+from materials_compendium.materials_compendium import Root, Datum, Element, Isotope, Contact, Mol, MaterialsCompendium
+from materials_compendium.utils import (
     ContactInfo,
     MolsInfo,
     IsotopeInfo,
