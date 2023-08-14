@@ -50,7 +50,17 @@ jobs:
 
       - name: Upload release artifact
         id: upload-artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: release-artifact
-          path: dist/
+          path: dist/*
+
+      - name: Attach artifact to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.upload-artifact.outputs.artifact_path }}
+          asset_name: ${{ steps.upload-artifact.outputs.artifact_name }}
+          asset_content_type: application/octet-stream
