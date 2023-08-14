@@ -1,0 +1,14 @@
+# Materials Compendium Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [v0.1.0] - 2023-08-14
+
+### Added
+- Initial release of the Materials Compendium project.
+- Added a Python script for parsing JSON data from the "Compendium of Material Composition Data for Radiation Transport Modeling" provided by the Pacific Northwest National Laboratory (PNNL).
+- Defined data classes to represent contacts, isotopes, elements, mols, and data entries.
+- Parsed and structured the JSON data into Python objects using the defined data classes.
+- Created a utils module to facilitate the parsing of the JSON data.
+- Created a workflow to test the materials compendium module.
+- Created a workflow to publish a release of the Materials Compendium project.
