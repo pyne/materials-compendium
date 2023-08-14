@@ -1,9 +1,6 @@
 name: Publish to PyPI
 
 on:
-  # allows running workflows manually
-  workflow_dispatch:
-
   release:
     types:
       - created
@@ -12,10 +9,9 @@ jobs:
   publish:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
         python: ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -35,12 +31,7 @@ jobs:
 
       - name: Build and package
         run: |
-          python -m build --wheel
-          cd dist
-          version=$(ls materials-compendium-*.whl | sed -E 's/materials-compendium-(.*?)-py3-none-any.whl/\1/')
-          mv materials-compendium-$version-py3-none-any.whl materials-compendium-$version-$(python3 -c 'import sys; print(f"py{sys.version_info.major}.{sys.version_info.minor}")')-$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m).whl
-          cd ..
-
+          python -m build
 
       - name: Publish package to PyPI
         if: success()
@@ -49,3 +40,21 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
           twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+      - name: Create a release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload release artifact
+        id: upload-artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-artifact
+          path: dist/
