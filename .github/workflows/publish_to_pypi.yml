@@ -35,10 +35,11 @@ jobs:
 
       - name: Build and package
         run: |
-          python -m build
+          python -m build --wheel
+          cd dist
           version=$(ls materials-compendium-*.whl | sed -E 's/materials-compendium-(.*?)-py3-none-any.whl/\1/')
           mv materials-compendium-$version-py3-none-any.whl materials-compendium-$version-$(python3 -c 'import sys; print(f"py{sys.version_info.major}.{sys.version_info.minor}")')-$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m).whl
-
+          cd ..
 
 
       - name: Publish package to PyPI
