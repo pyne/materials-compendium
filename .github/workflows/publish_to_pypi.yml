@@ -7,10 +7,6 @@ on:
 
 jobs:
   publish:
-    strategy:
-      matrix:
-        python: ["3.7", "3.8", "3.9", "3.10", "3.11"]
-
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +15,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python ${{ matrix.python }}
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python }}
+          python-version: 3.11
 
       - name: Install dependencies
         run: |
