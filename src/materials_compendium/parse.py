@@ -220,6 +220,7 @@ class Element:
         Returns:
             Element: A new Element object with attributes initialized using the values from the dictionary.
         """
+        
         _WeightFraction_whole = float(obj.get("WeightFraction_whole"))
         _NonIsotopic = bool(obj.get("NonIsotopic"))
         _Element = str(obj.get("Element"))

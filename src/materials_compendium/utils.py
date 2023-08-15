@@ -3,7 +3,7 @@ Separate classes and functions to perform specific tasks
 to retrieve specific information from the Materials Compendium
 """
 import difflib
-from .parse_material_compendium import (
+from .parse import (
     MaterialsCompendium,
     Datum,
     Isotope,
@@ -14,17 +14,18 @@ from .parse_material_compendium import (
 
 
 class ContactInfo:
+    """
+    Initialize a ContactInfo object with contact data.
+
+    Parameters:
+        contact_data (Contact): An instance of the Contact class containing name, phone, and email information.
+
+    Example:
+        contact_data = Contact(name="Ahnaf Tahmid Chowdhury", phone="123-456-7890", email="tahmid@example.com")
+        contact_info = ContactInfo(contact_data)
+    """
+
     def __init__(self, contact_data: Contact):
-        """
-        Initialize a ContactInfo object with contact data.
-
-        Parameters:
-            contact_data (Contact): An instance of the Contact class containing name, phone, and email information.
-
-        Example:
-            contact_data = Contact(name="Ahnaf Tahmid Chowdhury", phone="123-456-7890", email="tahmid@example.com")
-            contact_info = ContactInfo(contact_data)
-        """
         self.name = contact_data.Name
         self.phone = contact_data.Phone
         self.email = contact_data.Email
@@ -85,17 +86,18 @@ class ContactInfo:
 
 
 class MolsInfo:
+    """
+    Initialize a MolsInfo object with molecular data.
+
+    Parameters:
+        mol_data (Mol): An instance of the Mol class containing mols, isotope, and element information.
+
+    Example:
+        mol_data = Mol(mols=42, isotope="C-14", element="Carbon")
+        mols_info = MolsInfo(mol_data)
+    """
+
     def __init__(self, mol_data: Mol):
-        """
-        Initialize a MolsInfo object with molecular data.
-
-        Parameters:
-            mol_data (Mol): An instance of the Mol class containing mols, isotope, and element information.
-
-        Example:
-            mol_data = Mol(mols=42, isotope="C-14", element="Carbon")
-            mols_info = MolsInfo(mol_data)
-        """
         self.mols = mol_data.Mols
         self.isotope = mol_data.Isotope
         self.element = mol_data.Element
@@ -154,24 +156,25 @@ class MolsInfo:
 
 
 class IsotopeInfo:
+    """
+    Initialize an IsotopeInfo object with isotope data.
+
+    Parameters:
+        isotope_data (Isotope): An instance of the Isotope class containing various isotope information.
+
+    Example:
+        isotope_data = Isotope(
+            WeightPercent=0.011, Isotope="C-12", WeightFraction_whole=12.0, IsotopicWeightFraction_whole=13.0,
+            WeightFraction=0.012, Abundance=98.9, IsotopicAtomDensity=0.013, AtomicNumber_whole=6,
+            ZAID="12000", AtomFraction=0.014, AtomicNumber=6, IsotopicWeightFraction=0.015,
+            RelativeAtomicMass=12.01, RelativeAtomicMass_whole=12.0, IsotopicAtomFraction=0.016,
+            Abundance_whole=99.0, IsotopicAtomFraction_whole=16.0, AtomFraction_whole=14.0,
+            IsotopicAtomDensity_whole=13.0
+        )
+        isotope_info = IsotopeInfo(isotope_data)
+    """
+
     def __init__(self, isotope_data: Isotope):
-        """
-        Initialize an IsotopeInfo object with isotope data.
-
-        Parameters:
-            isotope_data (Isotope): An instance of the Isotope class containing various isotope information.
-
-        Example:
-            isotope_data = Isotope(
-                WeightPercent=0.011, Isotope="C-12", WeightFraction_whole=12.0, IsotopicWeightFraction_whole=13.0,
-                WeightFraction=0.012, Abundance=98.9, IsotopicAtomDensity=0.013, AtomicNumber_whole=6,
-                ZAID="12000", AtomFraction=0.014, AtomicNumber=6, IsotopicWeightFraction=0.015,
-                RelativeAtomicMass=12.01, RelativeAtomicMass_whole=12.0, IsotopicAtomFraction=0.016,
-                Abundance_whole=99.0, IsotopicAtomFraction_whole=16.0, AtomFraction_whole=14.0,
-                IsotopicAtomDensity_whole=13.0
-            )
-            isotope_info = IsotopeInfo(isotope_data)
-        """
         self.weight_percent = isotope_data.WeightPercent
         self.isotope = isotope_data.Isotope
         self.weight_fraction_whole = isotope_data.WeightFraction_whole
@@ -232,31 +235,32 @@ class IsotopeInfo:
 
 
 class ElementInfo:
+    """
+    Initialize an ElementInfo object with element data.
+
+    Parameters:
+        element_data (Element): An instance of the Element class containing various element information.
+
+    Example:
+        element_data = Element(
+            WeightFraction_whole=12.0, NonIsotopic=False, Element="C",
+            WeightFraction=0.012, AtomicMass=12.01, ZAID="12000", AtomFraction=0.014,
+            AtomDensity_whole=1.0, AtomFraction_whole=14.0, id="42",
+            Isotopes=[
+                Isotope(
+            WeightPercent=0.011, Isotope="C-12", WeightFraction_whole=12.0, IsotopicWeightFraction_whole=13.0,
+            WeightFraction=0.012, Abundance=98.9, IsotopicAtomDensity=0.013, AtomicNumber_whole=6,
+            ZAID="12000", AtomFraction=0.014, AtomicNumber=6, IsotopicWeightFraction=0.015,
+            RelativeAtomicMass=12.01, RelativeAtomicMass_whole=12.0, IsotopicAtomFraction=0.016,
+            Abundance_whole=99.0, IsotopicAtomFraction_whole=16.0, AtomFraction_whole=14.0,
+            IsotopicAtomDensity_whole=13.0
+            ),],
+            AtomDensity=1.5, AtomicMass_whole=12, Abundances="98.9"
+        )
+        element_info = ElementInfo(element_data)
+    """
+
     def __init__(self, element_data: Element):
-        """
-        Initialize an ElementInfo object with element data.
-
-        Parameters:
-            element_data (Element): An instance of the Element class containing various element information.
-
-        Example:
-            element_data = Element(
-                WeightFraction_whole=12.0, NonIsotopic=False, Element="C",
-                WeightFraction=0.012, AtomicMass=12.01, ZAID="12000", AtomFraction=0.014,
-                AtomDensity_whole=1.0, AtomFraction_whole=14.0, id="42",
-                Isotopes=[
-                    Isotope(
-                WeightPercent=0.011, Isotope="C-12", WeightFraction_whole=12.0, IsotopicWeightFraction_whole=13.0,
-                WeightFraction=0.012, Abundance=98.9, IsotopicAtomDensity=0.013, AtomicNumber_whole=6,
-                ZAID="12000", AtomFraction=0.014, AtomicNumber=6, IsotopicWeightFraction=0.015,
-                RelativeAtomicMass=12.01, RelativeAtomicMass_whole=12.0, IsotopicAtomFraction=0.016,
-                Abundance_whole=99.0, IsotopicAtomFraction_whole=16.0, AtomFraction_whole=14.0,
-                IsotopicAtomDensity_whole=13.0
-                ),],
-                AtomDensity=1.5, AtomicMass_whole=12, Abundances="98.9"
-            )
-            element_info = ElementInfo(element_data)
-        """
         self.weight_fraction_whole = element_data.WeightFraction_whole
         self.non_isotopic = element_data.NonIsotopic
         self.element = element_data.Element
@@ -515,18 +519,19 @@ class ElementInfo:
 
 
 class Material:
+    """
+    Initialize a Material object with material data.
+
+    Parameters:
+        datum (Datum): An instance of the Datum class containing various material information.
+
+    Example:
+        datum = Datum(Name="Sample Material", Formula="H2O", ...)
+        material = Material(datum) #or
+        material = Material(MaterialsCompendium[0])
+    """
+
     def __init__(self, datum: Datum):
-        """
-        Initialize a Material object with material data.
-
-        Parameters:
-            datum (Datum): An instance of the Datum class containing various material information.
-
-        Example:
-            datum = Datum(Name="Sample Material", Formula="H2O", ...)
-            material = Material(datum) #or
-            material = Material(MaterialsCompendium[0])
-        """
         self.comment = datum.Comment
         self.density = datum.Density
         self.acronym = datum.Acronym

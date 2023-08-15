@@ -1,1 +1,1 @@
-from .parse_material_compendium import MaterialsCompendium
+from .parse import MaterialsCompendium

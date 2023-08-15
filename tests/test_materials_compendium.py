@@ -1,5 +1,13 @@
 import pytest
-from materials_compendium.parse_material_compendium import Root, Datum, Element, Isotope, Contact, Mol, MaterialsCompendium
+from materials_compendium.parse import (
+    Root,
+    Datum,
+    Element,
+    Isotope,
+    Contact,
+    Mol,
+    MaterialsCompendium,
+)
 from materials_compendium.utils import (
     ContactInfo,
     MolsInfo,
@@ -453,9 +461,11 @@ def test_material():
         ],
         Source="Some source information",
         References=["Ref 1", "Ref 2"],
-        Contact=Contact(Name="Ahnaf Tahmid Chowdhury",
-                        Phone="123-456-7890",
-                        Email="tahmid@example.com",),
+        Contact=Contact(
+            Name="Ahnaf Tahmid Chowdhury",
+            Phone="123-456-7890",
+            Email="tahmid@example.com",
+        ),
         MaterialAtomDensity=2.5,
         Mols=[Mol(Mols=42, Isotope="C12", Element="Carbon")],
         MatNum=12,
