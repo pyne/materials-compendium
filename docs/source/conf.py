@@ -29,9 +29,8 @@ extensions = [
     "sphinx.ext.inheritance_diagram",
     "sphinx_autodoc_typehints",
     "sphinx_design",
-    "sphinxext.ipython_console_highlighting",
-    "sphinxext.notebook_sphinxext",
-    "sphinxcontrib.bibtex",
+    "nbsphinx",
+    "myst_nb",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

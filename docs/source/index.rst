@@ -10,97 +10,41 @@ resource provided by the esteemed Pacific Northwest National Laboratory
 necessary tools to access material properties crucial for accurate
 simulation within various radiation transport codes.
 
-.. raw:: html
+.. only:: html
 
-    <script language="javascript"> 
-    function pyneToggle(title, showHideDiv, switchTextDiv) {
-        var ele = document.getElementById(showHideDiv);
-        var text = document.getElementById(switchTextDiv);
-        if(ele.style.display == "block") {
-                ele.style.display = "none";
-            text.innerHTML = title + " [+]";
-        }
-        else {
-            ele.style.display = "block";
-            text.innerHTML = title + " [-]";
-        }
-    } 
-    </script>
+    .. grid:: 2
 
-    <div id="pynemenuheader">
-      <a id="startHeader" 
-         href="javascript:pyneToggle('Getting Started', 'startContent', 'startHeader');">
-         Getting Started [+]</a>
-    </div>
-    <div style="clear:both;"></div>
-    <div id="pynemenucontent">
-      <div id="startContent" style="display:none;">
-        <ul>
-          <li><a href="install/index.html">Install</a></li>
-          <li><a href="examples/materials-compendium.html">Example</a></li>
-        </ul>
-      </div>
-    </div>
+        .. grid-item-card:: \ :octicon:`book;2em` User's Guide
+            :text-align: center
+            :link: user/index
+            :link-type: doc
 
-    <br />
-    <div id="pynemenuheader">
-      <a id="usingHeader" 
-         href="javascript:pyneToggle('Using PyNE', 'usingContent', 'usingHeader');">
-         Using Materails Compendium [+]</a>
-    </div>
-    <div style="clear:both;"></div>
-    <div id="pynemenucontent">
-      <div id="usingContent" style="display:none;">
-        <ul>
-          <li><a href="usersguide/index.html">User's Guide</a></li>
-          <li><a href="api/index.html">API Documentation</a></li>
-          <li><a href="mailto:pyne-users+subscribe@googlegroups.com?subject=Subscribe&body=Send this message to subscribe to the list">Join</a> the <a href="https://groups.google.com/forum/#!forum/pyne-users" target="_blank"> Users</a> mailing list.
-          <li><a href="https://github.com/pyne/materials-compendium/issues">Report an Issue</a></li>
-        </ul>
-      </div>
-    </div>
+            The user's guide contains instructions for installing and an overview of
+            the basic concepts.
 
-    <br />
-    <div id="pynemenuheader">
-      <a id="contributeHeader" 
-         href="javascript:pyneToggle('Contribute', 'contributeContent', 'contributeHeader');">
-         Contribute [+]</a>
-    </div>
-    <div style="clear:both;"></div>
-    <div id="pynemenucontent">
-      <div id="contributeContent" style="display:none;">
-        <ul>
-          <li><a href="https://pyne.io/devsguide/index.html">Developer's Guide</a></li>
-          <li><a href="http://github.com/pyne/materials-compendium">Source Code</a></li>
-          <li><a href="mailto:pyne-users+subscribe@googlegroups.com?subject=Subscribe&body=Send this message to subscribe to the list">Join</a> the 
-              <a href="https://groups.google.com/forum/#!forum/pyne-users" target="_blank">Developers</a> mailing list.
-          <li><a href="https://pyne.io/dev_team.html">The PyNE Team</a></li>
-        </ul>
-      </div>
-    </div>
+        .. grid-item-card:: \ :octicon:`repo;2em` Tutorial
+            :text-align: center
+            :link: tutorial/materials-compendium
+            :link-type: doc
 
-    <br />
-    <div id="pynemenuheader">
-      <a id="learnHeader" 
-         href="javascript:pyneToggle('Learn More', 'learnContent', 'learnHeader');">
-         Learn More [+]</a>
-    </div>
-    <div style="clear:both;"></div>
-    <div id="pynemenucontent">
-      <div id="learnContent" style="display:none;">
-        <ul>
-          <li><a href="https://pyne.io/theorymanual/index.html">Theory Manual</a></li>
-          <li><a href="https://pyne.io/pubs.html">Publications</a></li>
-          <li><a href="previous/index.html">Release Notes</a></li>
-          <li><a href="https://pyne.io/gsoc/index.html">Project Ideas</a></li>
-        </ul>
-      </div>
-    </div>
+            The tutorial provides an introduction to using the Materials Compendium package.
 
-.. toctree::
-     :maxdepth: 1
-     
-     api/index
+    .. grid:: 2
+
+        .. grid-item-card:: \ :octicon:`terminal;2em` API Reference
+            :text-align: center
+            :link: api/index
+            :link-type: doc
+
+            The reference guide provides detailed information on classes, methods,
+            arguments, return values, etc.
+
+        .. grid-item-card:: \ :octicon:`comment-discussion;2em` Getting Help
+            :text-align: center
+            :link: https://github.com/pyne/materials-compendium/discussions
+
+            Have questions? Click here for our discussions forum.
+
 
 .. _GitHub project site: https://github.com/pyne
 
