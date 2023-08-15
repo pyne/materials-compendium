@@ -28,7 +28,6 @@ div.related {
 }
 
 div.sphinxlocaltoc ul a, div.sphinxglobaltoc ul a {
-    display: inline;
     white-space: normal;
 }
 
@@ -60,4 +59,18 @@ div#pynemenucontent {
 div#pynemenucontent ul {
     list-style: square;
     color: {{ theme_sidebartextcolor }};
+}
+
+table.align-default {
+width:100%;
+}
+
+div.sphinxsidebar ul li a {
+    overflow: hidden;
+    white-space: normal !important;
+}
+
+div.sphinxlocaltoc ul a, div.sphinxglobaltoc ul a {
+    display: block !important;
+    white-space: normal;
 }
