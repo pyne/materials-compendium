@@ -1,7 +1,0 @@
-sphinx
-cloud_sptheme
-nbsphinx
-myst-nb
-sphinx_design
-sphinx_autodoc_typehints
-.
