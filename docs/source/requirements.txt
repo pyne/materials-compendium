@@ -4,3 +4,4 @@ nbsphinx
 myst-nb
 sphinx_design
 sphinx_autodoc_typehints
+-e git+https://github.com/pyne/materials-compendium.git#egg=materials-compendium
