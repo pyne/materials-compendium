@@ -31,7 +31,7 @@ pip install .[test]
 
 ## Documentation
 
-For comprehensive guidance on leveraging the capabilities of the `materials-compendium` package and an exhaustive API reference, kindly refer to our [online documentation (working)](https://working).
+For comprehensive guidance on leveraging the capabilities of the `materials-compendium` package and an exhaustive API reference, kindly refer to our [online documentation (working)](https://pyne.io/materials-compendium).
 
 ## Disclaimer
 
