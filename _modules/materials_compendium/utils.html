@@ -1,0 +1,1108 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>materials_compendium.utils &#8212; Materials Compendium 0.1.dev1+g7b1921f</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pyne.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../_static/cloud.js"></script>
+    
+
+    <link rel="shortcut icon" href="../../_static/pyne_icon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"><script type="text/javascript">
+var ga_enabled = !$.cookie('disable-ga');
+if(ga_enabled){
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37452818-1']);
+  _gaq.push(['_setCookiePath', '/']);
+  _gaq.push(['_setDetectFlash', false]);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
+</script>
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Materials Compendium</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">materials_compendium.utils</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for materials_compendium.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Separate classes and functions to perform specific tasks</span>
+<span class="sd">to retrieve specific information from the Materials Compendium</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">difflib</span>
+<span class="kn">from</span> <span class="nn">.parse</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MaterialsCompendium</span><span class="p">,</span>
+    <span class="n">Datum</span><span class="p">,</span>
+    <span class="n">Isotope</span><span class="p">,</span>
+    <span class="n">Element</span><span class="p">,</span>
+    <span class="n">Contact</span><span class="p">,</span>
+    <span class="n">Mol</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="ContactInfo"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ContactInfo.html#materials_compendium.utils.ContactInfo">[docs]</a><span class="k">class</span> <span class="nc">ContactInfo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize a ContactInfo object with contact data.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        contact_data (Contact): An instance of the Contact class containing name, phone, and email information.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        contact_data = Contact(name=&quot;Ahnaf Tahmid Chowdhury&quot;, phone=&quot;123-456-7890&quot;, email=&quot;tahmid@example.com&quot;)</span>
+<span class="sd">        contact_info = ContactInfo(contact_data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contact_data</span><span class="p">:</span> <span class="n">Contact</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">.</span><span class="n">Name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phone</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">.</span><span class="n">Phone</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">contact_data</span><span class="o">.</span><span class="n">Email</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the ContactInfo object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing contact information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            contact_data = Contact(name=&quot;Ahnaf Tahmid Chowdhury&quot;, phone=&quot;123-456-7890&quot;, email=&quot;tahmid@example.com&quot;)</span>
+<span class="sd">            contact_info = ContactInfo(contact_data)</span>
+<span class="sd">            print(contact_info)</span>
+<span class="sd">            # Output: &quot;Name: Ahnaf Tahmid Chowdhury, Phone: 123-456-7890, Email: tahmid@example.com&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, Phone: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">phone</span><span class="si">}</span><span class="s2">, Email: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="ContactInfo.get_name"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ContactInfo.get_name.html#materials_compendium.utils.ContactInfo.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the name associated with the contact.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The name of the contact.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(contact_info.get_name())</span>
+<span class="sd">            # Output: &quot;Ahnaf Tahmid Chowdhury&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="ContactInfo.get_phone"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ContactInfo.get_phone.html#materials_compendium.utils.ContactInfo.get_phone">[docs]</a>    <span class="k">def</span> <span class="nf">get_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the phone number associated with the contact.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The phone number of the contact.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(contact_info.get_phone())</span>
+<span class="sd">            # Output: &quot;123-456-7890&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">phone</span></div>
+
+<div class="viewcode-block" id="ContactInfo.get_email"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ContactInfo.get_email.html#materials_compendium.utils.ContactInfo.get_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the email address associated with the contact.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The email address of the contact.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(contact_info.get_email())</span>
+<span class="sd">            # Output: &quot;tahmid@example.com&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">email</span></div></div>
+
+
+<div class="viewcode-block" id="MolsInfo"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.MolsInfo.html#materials_compendium.utils.MolsInfo">[docs]</a><span class="k">class</span> <span class="nc">MolsInfo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize a MolsInfo object with molecular data.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        mol_data (Mol): An instance of the Mol class containing mols, isotope, and element information.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        mol_data = Mol(mols=42, isotope=&quot;C-14&quot;, element=&quot;Carbon&quot;)</span>
+<span class="sd">        mols_info = MolsInfo(mol_data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mol_data</span><span class="p">:</span> <span class="n">Mol</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">=</span> <span class="n">mol_data</span><span class="o">.</span><span class="n">Mols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotope</span> <span class="o">=</span> <span class="n">mol_data</span><span class="o">.</span><span class="n">Isotope</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="n">mol_data</span><span class="o">.</span><span class="n">Element</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the MolsInfo object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing molecular information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(mols_info)</span>
+<span class="sd">            # Output: &quot;Mols: 42, Isotopes: C-14, Elements: Carbon&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Mols: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mols</span><span class="si">}</span><span class="s2">, Isotopes: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotope</span><span class="si">}</span><span class="s2">, Elements: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="MolsInfo.get_mols"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.MolsInfo.get_mols.html#materials_compendium.utils.MolsInfo.get_mols">[docs]</a>    <span class="k">def</span> <span class="nf">get_mols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the mols associated with the molecular data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The quantity of mols.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(mols_info.get_mols())</span>
+<span class="sd">            # Output: 42</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span></div>
+
+<div class="viewcode-block" id="MolsInfo.get_isotope"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.MolsInfo.get_isotope.html#materials_compendium.utils.MolsInfo.get_isotope">[docs]</a>    <span class="k">def</span> <span class="nf">get_isotope</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the isotope associated with the molecular data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The isotope information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(mols_info.get_isotope())</span>
+<span class="sd">            # Output: &quot;C-14&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isotope</span></div>
+
+<div class="viewcode-block" id="MolsInfo.get_element"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.MolsInfo.get_element.html#materials_compendium.utils.MolsInfo.get_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the element associated with the molecular data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The element information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(mols_info.get_element())</span>
+<span class="sd">            # Output: &quot;Carbon&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span></div></div>
+
+
+<div class="viewcode-block" id="IsotopeInfo"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.IsotopeInfo.html#materials_compendium.utils.IsotopeInfo">[docs]</a><span class="k">class</span> <span class="nc">IsotopeInfo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize an IsotopeInfo object with isotope data.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        isotope_data (Isotope): An instance of the Isotope class containing various isotope information.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        isotope_data = Isotope(</span>
+<span class="sd">            WeightPercent=0.011, Isotope=&quot;C-12&quot;, WeightFraction_whole=12.0, IsotopicWeightFraction_whole=13.0,</span>
+<span class="sd">            WeightFraction=0.012, Abundance=98.9, IsotopicAtomDensity=0.013, AtomicNumber_whole=6,</span>
+<span class="sd">            ZAID=&quot;12000&quot;, AtomFraction=0.014, AtomicNumber=6, IsotopicWeightFraction=0.015,</span>
+<span class="sd">            RelativeAtomicMass=12.01, RelativeAtomicMass_whole=12.0, IsotopicAtomFraction=0.016,</span>
+<span class="sd">            Abundance_whole=99.0, IsotopicAtomFraction_whole=16.0, AtomFraction_whole=14.0,</span>
+<span class="sd">            IsotopicAtomDensity_whole=13.0</span>
+<span class="sd">        )</span>
+<span class="sd">        isotope_info = IsotopeInfo(isotope_data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">isotope_data</span><span class="p">:</span> <span class="n">Isotope</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_percent</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">WeightPercent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotope</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">Isotope</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">WeightFraction_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotopic_weight_fraction_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">IsotopicWeightFraction_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">WeightFraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abundance</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">Abundance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_density</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">IsotopicAtomDensity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atomic_number_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">AtomicNumber_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zaid</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">ZAID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">AtomFraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atomic_number</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">AtomicNumber</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotopic_weight_fraction</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">IsotopicWeightFraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_atomic_mass</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">RelativeAtomicMass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relative_atomic_mass_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">RelativeAtomicMass_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_fraction</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">IsotopicAtomFraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abundance_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">Abundance_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_fraction_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">IsotopicAtomFraction_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">AtomFraction_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_density_whole</span> <span class="o">=</span> <span class="n">isotope_data</span><span class="o">.</span><span class="n">IsotopicAtomDensity_whole</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the IsotopeInfo object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing isotope information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Isotope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotope</span><span class="si">}</span><span class="s2">, Weight Percent: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_percent</span><span class="si">}</span><span class="s2">, ZAID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">zaid</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="IsotopeInfo.get_all"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.IsotopeInfo.get_all.html#materials_compendium.utils.IsotopeInfo.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all available isotope information in a formatted string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing all available isotope information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Isotope: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotope</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; ZAID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">zaid</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Weight Percent: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_percent</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Weight Fraction (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Isotopic Weight Fraction (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotopic_weight_fraction_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Weight Fraction: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Abundance: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">abundance</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Isotopic Atom Density: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_density</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atomic Number (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atomic_number_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atom Fraction: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atomic Number: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atomic_number</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Isotopic Weight Fraction: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotopic_weight_fraction</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Relative Atomic Mass: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_atomic_mass</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Relative Atomic Mass (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">relative_atomic_mass_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Isotopic Atom Fraction: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_fraction</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Abundance (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">abundance_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Isotopic Atom Fraction (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_fraction_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atom Fraction (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Isotopic Atom Density (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">isotopic_atom_density_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ElementInfo"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.html#materials_compendium.utils.ElementInfo">[docs]</a><span class="k">class</span> <span class="nc">ElementInfo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize an ElementInfo object with element data.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        element_data (Element): An instance of the Element class containing various element information.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        element_data = Element(</span>
+<span class="sd">            WeightFraction_whole=12.0, NonIsotopic=False, Element=&quot;C&quot;,</span>
+<span class="sd">            WeightFraction=0.012, AtomicMass=12.01, ZAID=&quot;12000&quot;, AtomFraction=0.014,</span>
+<span class="sd">            AtomDensity_whole=1.0, AtomFraction_whole=14.0, id=&quot;42&quot;,</span>
+<span class="sd">            Isotopes=[</span>
+<span class="sd">                Isotope(</span>
+<span class="sd">            WeightPercent=0.011, Isotope=&quot;C-12&quot;, WeightFraction_whole=12.0, IsotopicWeightFraction_whole=13.0,</span>
+<span class="sd">            WeightFraction=0.012, Abundance=98.9, IsotopicAtomDensity=0.013, AtomicNumber_whole=6,</span>
+<span class="sd">            ZAID=&quot;12000&quot;, AtomFraction=0.014, AtomicNumber=6, IsotopicWeightFraction=0.015,</span>
+<span class="sd">            RelativeAtomicMass=12.01, RelativeAtomicMass_whole=12.0, IsotopicAtomFraction=0.016,</span>
+<span class="sd">            Abundance_whole=99.0, IsotopicAtomFraction_whole=16.0, AtomFraction_whole=14.0,</span>
+<span class="sd">            IsotopicAtomDensity_whole=13.0</span>
+<span class="sd">            ),],</span>
+<span class="sd">            AtomDensity=1.5, AtomicMass_whole=12, Abundances=&quot;98.9&quot;</span>
+<span class="sd">        )</span>
+<span class="sd">        element_info = ElementInfo(element_data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_data</span><span class="p">:</span> <span class="n">Element</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction_whole</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">WeightFraction_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_isotopic</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">NonIsotopic</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">Element</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">WeightFraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atomic_mass</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">AtomicMass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zaid</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">ZAID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">AtomFraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_density_whole</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">AtomDensity_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction_whole</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">AtomFraction_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotopes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">IsotopeInfo</span><span class="p">(</span><span class="n">isotope_data</span><span class="p">)</span> <span class="k">for</span> <span class="n">isotope_data</span> <span class="ow">in</span> <span class="n">element_data</span><span class="o">.</span><span class="n">Isotopes</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_density</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">AtomDensity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atomic_mass_whole</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">AtomicMass_whole</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abundances</span> <span class="o">=</span> <span class="n">element_data</span><span class="o">.</span><span class="n">Abundances</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the ElementInfo object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing element information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info)</span>
+<span class="sd">            # Output: &quot;Element: Carbon \n ZAID: 12000 \n Isotopes: C-12, C-13, ...&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Element: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> ZAID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">zaid</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Isotopes:</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">isotope</span><span class="o">.</span><span class="n">isotope</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">isotope</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">isotopes</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="ElementInfo.get_all"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_all.html#materials_compendium.utils.ElementInfo.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all available element information in a formatted string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing all available element information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_all())</span>
+<span class="sd">            # Output: &quot;Element: Carbon</span>
+<span class="sd">            #  Id: 42</span>
+<span class="sd">            #  ZAID: 12000</span>
+<span class="sd">            #  Atomic Mass: 12.01</span>
+<span class="sd">            #  Atom Density: 1.5</span>
+<span class="sd">            #  Atomic Mass (Whole): 12</span>
+<span class="sd">            #  Atom Fraction: 0.014</span>
+<span class="sd">            #  Weight Fraction: 0.012</span>
+<span class="sd">            #  Atom Fraction (Whole): 14</span>
+<span class="sd">            #  Weight Fraction (Whole): 12</span>
+<span class="sd">            #  Non Isotopic: False</span>
+<span class="sd">            #  Isotopes: C-12, C-13, ...</span>
+<span class="sd">            #  Abundances: 98.9&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Element: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Id: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; ZAID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">zaid</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atomic Mass: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atomic_mass</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atom Density: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atom_density</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atomic Mass (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atomic_mass_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atom Fraction: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Weight Fraction: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Atom Fraction (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Weight Fraction (Whole): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction_whole</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Non Isotopic: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">non_isotopic</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Isotopes: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">isotope</span><span class="o">.</span><span class="n">isotope</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">isotope</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">isotopes</span><span class="p">])</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Abundances: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">abundances</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+    <span class="c1"># Methods for accessing specific attributes</span>
+
+<div class="viewcode-block" id="ElementInfo.get_weight_fraction"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_weight_fraction.html#materials_compendium.utils.ElementInfo.get_weight_fraction">[docs]</a>    <span class="k">def</span> <span class="nf">get_weight_fraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the weight fraction associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The weight fraction.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_weight_fraction())</span>
+<span class="sd">            # Output: 0.012</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_weight_fraction_whole"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_weight_fraction_whole.html#materials_compendium.utils.ElementInfo.get_weight_fraction_whole">[docs]</a>    <span class="k">def</span> <span class="nf">get_weight_fraction_whole</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the whole number weight fraction associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The whole number weight fraction.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_weight_fraction_whole())</span>
+<span class="sd">            # Output: 12.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_fraction_whole</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_non_isotopic"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_non_isotopic.html#materials_compendium.utils.ElementInfo.get_non_isotopic">[docs]</a>    <span class="k">def</span> <span class="nf">get_non_isotopic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the non-isotopic information associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: The non-isotopic information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_non_isotopic())</span>
+<span class="sd">            # Output: False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">non_isotopic</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_element"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_element.html#materials_compendium.utils.ElementInfo.get_element">[docs]</a>    <span class="k">def</span> <span class="nf">get_element</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the name of the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The name of the element.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            # Output: &quot;C&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_atomic_mass"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_atomic_mass.html#materials_compendium.utils.ElementInfo.get_atomic_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_atomic_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the atomic mass associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The atomic mass.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            # Output: 12.01</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atomic_mass</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_zaid"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_zaid.html#materials_compendium.utils.ElementInfo.get_zaid">[docs]</a>    <span class="k">def</span> <span class="nf">get_zaid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the ZAID (unique identifier) associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The ZAID.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            # Output: &quot;12000&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zaid</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_atom_fraction"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_atom_fraction.html#materials_compendium.utils.ElementInfo.get_atom_fraction">[docs]</a>    <span class="k">def</span> <span class="nf">get_atom_fraction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the atom fraction associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The atom fraction.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_atom_fraction())</span>
+<span class="sd">            # Output: 0.014</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_atom_density_whole"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_atom_density_whole.html#materials_compendium.utils.ElementInfo.get_atom_density_whole">[docs]</a>    <span class="k">def</span> <span class="nf">get_atom_density_whole</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the whole number atom density associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The whole number atom density.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_atom_density_whole())</span>
+<span class="sd">            # Output: 1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atom_density_whole</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_atom_fraction_whole"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_atom_fraction_whole.html#materials_compendium.utils.ElementInfo.get_atom_fraction_whole">[docs]</a>    <span class="k">def</span> <span class="nf">get_atom_fraction_whole</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the whole number atom fraction associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The whole number atom fraction.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_atom_fraction_whole())</span>
+<span class="sd">            # Output: 14</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atom_fraction_whole</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_id"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_id.html#materials_compendium.utils.ElementInfo.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the identifier associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The element identifier.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_id())</span>
+<span class="sd">            # Output: &quot;42&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_isotopes"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_isotopes.html#materials_compendium.utils.ElementInfo.get_isotopes">[docs]</a>    <span class="k">def</span> <span class="nf">get_isotopes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about isotopes associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing information about isotopes.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_isotopes())</span>
+<span class="sd">            # Output: &quot;Index: 0 \n Isotope: C-12, Weight Percent: 0.011, ZAID: 12000 \n</span>
+<span class="sd">            #          Index: 1 \n Isotope: C-13, Weight Percent: ..., ZAID: ...&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;Index: </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">isotope</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">isotope</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isotopes</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_atom_density"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_atom_density.html#materials_compendium.utils.ElementInfo.get_atom_density">[docs]</a>    <span class="k">def</span> <span class="nf">get_atom_density</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the atom density associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The atom density.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_atom_density())</span>
+<span class="sd">            # Output: 1.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atom_density</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_atomic_mass_whole"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_atomic_mass_whole.html#materials_compendium.utils.ElementInfo.get_atomic_mass_whole">[docs]</a>    <span class="k">def</span> <span class="nf">get_atomic_mass_whole</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the whole number atomic mass associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The whole number atomic mass.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_atomic_mass_whole())</span>
+<span class="sd">            # Output: 12.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atomic_mass_whole</span></div>
+
+<div class="viewcode-block" id="ElementInfo.get_abundances"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.ElementInfo.get_abundances.html#materials_compendium.utils.ElementInfo.get_abundances">[docs]</a>    <span class="k">def</span> <span class="nf">get_abundances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the abundances associated with the element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing the abundances.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(element_info.get_abundances())</span>
+<span class="sd">            # Output: &quot;98.9&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">abundances</span></div></div>
+
+
+<div class="viewcode-block" id="Material"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.html#materials_compendium.utils.Material">[docs]</a><span class="k">class</span> <span class="nc">Material</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize a Material object with material data.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        datum (Datum): An instance of the Datum class containing various material information.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        datum = Datum(Name=&quot;Sample Material&quot;, Formula=&quot;H2O&quot;, ...)</span>
+<span class="sd">        material = Material(datum) #or</span>
+<span class="sd">        material = Material(MaterialsCompendium[0])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datum</span><span class="p">:</span> <span class="n">Datum</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">Comment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">density</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">Density</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">acronym</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">Acronym</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">ElementInfo</span><span class="p">(</span><span class="n">element_data</span><span class="p">)</span> <span class="k">for</span> <span class="n">element_data</span> <span class="ow">in</span> <span class="n">datum</span><span class="o">.</span><span class="n">Elements</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">Source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">references</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">References</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contact</span> <span class="o">=</span> <span class="n">ContactInfo</span><span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">Contact</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">material_atom_density</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">MaterialAtomDensity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">MolsInfo</span><span class="p">(</span><span class="n">mol_data</span><span class="p">)</span> <span class="k">for</span> <span class="n">mol_data</span> <span class="ow">in</span> <span class="n">datum</span><span class="o">.</span><span class="n">Mols</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mat_num</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">MatNum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">material_weight</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">MaterialWeight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">Name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verification_notes</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">Verification_Notes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">datum</span><span class="o">.</span><span class="n">Formula</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the Material object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing material information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material)</span>
+<span class="sd">            # Output: &quot;Material Name: Sample Material \n Formula: H2O \n Density: 1.0&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Material Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Formula: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">formula</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Density: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">density</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Material.get_all"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_all.html#materials_compendium.utils.Material.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all available material information in a formatted string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing all available material information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_all())</span>
+<span class="sd">            # Output: &quot;Material Name: Sample Material</span>
+<span class="sd">            #  Acronym: ...</span>
+<span class="sd">            #  Formula: H2O</span>
+<span class="sd">            #  Density: 1.0</span>
+<span class="sd">            #  Material Atom Density: ...</span>
+<span class="sd">            #  Elements: ...</span>
+<span class="sd">            #  Mat Num: ...</span>
+<span class="sd">            #  Material Weight: ...</span>
+<span class="sd">            #  Comments:</span>
+<span class="sd">            #  ...</span>
+<span class="sd">            #  Source: ...</span>
+<span class="sd">            #  Verification Notes: ...</span>
+<span class="sd">            #  References: ...</span>
+<span class="sd">            #  Contact:</span>
+<span class="sd">            #   Name: ...</span>
+<span class="sd">            #   Phone: ...</span>
+<span class="sd">            #   Email: ...&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">element_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+            <span class="n">element_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">element</span><span class="p">)</span>
+        <span class="n">elements_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">element_data</span><span class="p">)</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">acronym</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">acronym</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acronym</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">verification_notes</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">verification_notes</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verification_notes</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">)</span>
+        <span class="n">contact</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Contact:</span><span class="se">\n</span><span class="s2"> Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Phone: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">phone</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Email: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">references</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Material Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Acronym: </span><span class="si">{</span><span class="n">acronym</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Formula: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">formula</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Density: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">density</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Material Atom Density: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">material_atom_density</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Elements: </span><span class="si">{</span><span class="n">elements_str</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Mat Num: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mat_num</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Material Weight: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">material_weight</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Comments:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">comments</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Source: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Verification Notes: </span><span class="si">{</span><span class="n">verification_notes</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;References: </span><span class="si">{</span><span class="n">references</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="n">contact</span>
+        <span class="p">)</span></div>
+
+    <span class="c1"># Methods for accessing specific attributes</span>
+
+<div class="viewcode-block" id="Material.get_comment"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_comment.html#materials_compendium.utils.Material.get_comment">[docs]</a>    <span class="k">def</span> <span class="nf">get_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the comments associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of comments.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            datum = Datum(Comment=[&quot;Comment 1&quot;, &quot;Comment 2&quot;])</span>
+<span class="sd">            material = Material(datum)</span>
+<span class="sd">            print(material.get_comment())</span>
+<span class="sd">            # Output: [&quot;Comment 1&quot;, &quot;Comment 2&quot;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span></div>
+
+<div class="viewcode-block" id="Material.get_density"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_density.html#materials_compendium.utils.Material.get_density">[docs]</a>    <span class="k">def</span> <span class="nf">get_density</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the density associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The density.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            datum = Datum(Density=1.0)</span>
+<span class="sd">            material = Material(datum)</span>
+<span class="sd">            print(material.get_density())</span>
+<span class="sd">            # Output: 1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">density</span></div>
+
+<div class="viewcode-block" id="Material.get_acronym"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_acronym.html#materials_compendium.utils.Material.get_acronym">[docs]</a>    <span class="k">def</span> <span class="nf">get_acronym</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the acronym associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: The acronym.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_acronym())</span>
+<span class="sd">            # Output: [&quot;ABC&quot;, &quot;DEF&quot;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">acronym</span></div>
+
+<div class="viewcode-block" id="Material.get_elements"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_elements.html#materials_compendium.utils.Material.get_elements">[docs]</a>    <span class="k">def</span> <span class="nf">get_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about elements associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing information about elements.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_elements())</span>
+<span class="sd">            # Output: &quot;Index: 0 \n Element: Carbon, ZAID: 12000, ...&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;Index: </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">element</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Material.get_source"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_source.html#materials_compendium.utils.Material.get_source">[docs]</a>    <span class="k">def</span> <span class="nf">get_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the source of the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The source of the material.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_source())</span>
+<span class="sd">            # Output: &quot;Some source information&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span></div>
+
+<div class="viewcode-block" id="Material.get_references"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_references.html#materials_compendium.utils.Material.get_references">[docs]</a>    <span class="k">def</span> <span class="nf">get_references</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the references associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of references.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            datum = Datum(References=[&quot;Ref 1&quot;, &quot;Ref 2&quot;])</span>
+<span class="sd">            material = Material(datum)</span>
+<span class="sd">            print(material.get_references())</span>
+<span class="sd">            # Output: [&quot;Ref 1&quot;, &quot;Ref 2&quot;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">references</span></div>
+
+<div class="viewcode-block" id="Material.get_contact"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_contact.html#materials_compendium.utils.Material.get_contact">[docs]</a>    <span class="k">def</span> <span class="nf">get_contact</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the contact information associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing the contact information.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_contact())</span>
+<span class="sd">            # Output: &quot;Contact:</span>
+<span class="sd">            #          Name: Ahnaf Tahmid Chowdhury</span>
+<span class="sd">            #          Phone: 1234567890</span>
+<span class="sd">            #          Email: tahmid@example.com&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">contact</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Contact:</span><span class="se">\n</span><span class="s2"> Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Phone: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">phone</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> Email: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">contact</span></div>
+
+<div class="viewcode-block" id="Material.get_material_atom_density"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_material_atom_density.html#materials_compendium.utils.Material.get_material_atom_density">[docs]</a>    <span class="k">def</span> <span class="nf">get_material_atom_density</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the material atom density.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The material atom density.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_material_atom_density())</span>
+<span class="sd">            # Output: 2.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">material_atom_density</span></div>
+
+<div class="viewcode-block" id="Material.get_mols"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_mols.html#materials_compendium.utils.Material.get_mols">[docs]</a>    <span class="k">def</span> <span class="nf">get_mols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about mols associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string containing information about mols.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_mols())</span>
+<span class="sd">            # Output: &quot;Mols: 100, Isotopes: H1, C12, O16&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;Mols: </span><span class="si">{</span><span class="n">mol</span><span class="o">.</span><span class="n">get_mols</span><span class="p">()</span><span class="si">}</span><span class="s2">, Isotopes: </span><span class="si">{</span><span class="n">mol</span><span class="o">.</span><span class="n">get_isotope</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mols</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Material.get_mat_num"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_mat_num.html#materials_compendium.utils.Material.get_mat_num">[docs]</a>    <span class="k">def</span> <span class="nf">get_mat_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the material number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The material number.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_mat_num())</span>
+<span class="sd">            # Output: 12</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mat_num</span></div>
+
+<div class="viewcode-block" id="Material.get_material_weight"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_material_weight.html#materials_compendium.utils.Material.get_material_weight">[docs]</a>    <span class="k">def</span> <span class="nf">get_material_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the material weight.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The material weight.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_material_weight())</span>
+<span class="sd">            # Output: &quot;10&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">material_weight</span></div>
+
+<div class="viewcode-block" id="Material.get_name"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_name.html#materials_compendium.utils.Material.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the name of the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The name of the material.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_name())</span>
+<span class="sd">            # Output: &quot;Sample Material&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="Material.get_verification_notes"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_verification_notes.html#materials_compendium.utils.Material.get_verification_notes">[docs]</a>    <span class="k">def</span> <span class="nf">get_verification_notes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the verification notes associated with the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of verification notes.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_verification_notes())</span>
+<span class="sd">            # Output: [&quot;Some verification notes&quot;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">verification_notes</span></div>
+
+<div class="viewcode-block" id="Material.get_formula"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.get_formula.html#materials_compendium.utils.Material.get_formula">[docs]</a>    <span class="k">def</span> <span class="nf">get_formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the formula of the material.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The formula of the material.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            print(material.get_formula())</span>
+<span class="sd">            # Output: &quot;H2O&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">formula</span></div>
+
+<div class="viewcode-block" id="Material.from_name"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.from_name.html#materials_compendium.utils.Material.from_name">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">material_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Material object by searching for a material using its name.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            material_name (str): The name of the material to search for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Material or None: The Material object if found, or None if not found.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            material = Material.from_name(&quot;Sample Material&quot;)</span>
+<span class="sd">            if material:</span>
+<span class="sd">                print(material.get_all())</span>
+<span class="sd">            else:</span>
+<span class="sd">                print(&quot;Material not found.&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">matched_materials</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">datum</span> <span class="ow">in</span> <span class="n">MaterialsCompendium</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">datum</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="n">material_name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datum</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">difflib</span><span class="o">.</span><span class="n">SequenceMatcher</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">material_name</span><span class="p">,</span> <span class="n">datum</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.6</span><span class="p">:</span>
+                <span class="c1"># Consider a match if the similarity ratio is greater than 0.6 (adjust the threshold as needed)</span>
+                <span class="n">matched_materials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">matched_materials</span><span class="p">:</span>
+            <span class="n">suggestions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">matched_materials</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Material &#39;</span><span class="si">{</span><span class="n">material_name</span><span class="si">}</span><span class="s2">&#39; not found. Did you mean:</span><span class="se">\n</span><span class="si">{</span><span class="n">suggestions</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Material &#39;</span><span class="si">{</span><span class="n">material_name</span><span class="si">}</span><span class="s2">&#39; not found in the data.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Material.from_formula"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.from_formula.html#materials_compendium.utils.Material.from_formula">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">material_formula</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Material object by searching for a material using its formula.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            material_formula (str): The formula of the material to search for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Material or None: The Material object if found, or None if not found.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            material = Material.from_formula(&quot;H2O&quot;)</span>
+<span class="sd">            if material:</span>
+<span class="sd">                print(material.get_all())</span>
+<span class="sd">            else:</span>
+<span class="sd">                print(&quot;Material not found.&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">matched_materials</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">datum</span> <span class="ow">in</span> <span class="n">MaterialsCompendium</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">datum</span><span class="o">.</span><span class="n">Formula</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">datum</span><span class="o">.</span><span class="n">Formula</span> <span class="o">==</span> <span class="n">material_formula</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datum</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">datum</span><span class="o">.</span><span class="n">Formula</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">difflib</span><span class="o">.</span><span class="n">SequenceMatcher</span><span class="p">(</span>
+                    <span class="kc">None</span><span class="p">,</span> <span class="n">material_formula</span><span class="p">,</span> <span class="n">datum</span><span class="o">.</span><span class="n">Formula</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+                <span class="o">&gt;</span> <span class="mf">0.6</span>
+            <span class="p">):</span>
+                <span class="c1"># Consider a match if the similarity ratio is greater than 0.6 (adjust the threshold as needed)</span>
+                <span class="n">matched_materials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">Formula</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">matched_materials</span><span class="p">:</span>
+            <span class="n">suggestions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">matched_materials</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Material with formula &#39;</span><span class="si">{</span><span class="n">material_formula</span><span class="si">}</span><span class="s2">&#39; not found. Did you mean:</span><span class="se">\n</span><span class="si">{</span><span class="n">suggestions</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Material with formula &#39;</span><span class="si">{</span><span class="n">material_formula</span><span class="si">}</span><span class="s2">&#39; not found in the data.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Material.from_acronym"><a class="viewcode-back" href="../../api/generated/materials_compendium.utils.Material.from_acronym.html#materials_compendium.utils.Material.from_acronym">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_acronym</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">material_acronym</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Material object by searching for a material using its acronym.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            material_acronym (str): The acronym of the material to search for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Material or None: The Material object if found, or None if not found.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            material = Material.from_acronym(&quot;ABC&quot;)</span>
+<span class="sd">            if material:</span>
+<span class="sd">                print(material.get_all())</span>
+<span class="sd">            else:</span>
+<span class="sd">                print(&quot;Material not found.&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">matched_materials</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">datum</span> <span class="ow">in</span> <span class="n">MaterialsCompendium</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">datum</span><span class="o">.</span><span class="n">Acronym</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">datum</span><span class="o">.</span><span class="n">Acronym</span> <span class="o">==</span> <span class="n">material_acronym</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">datum</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">datum</span><span class="o">.</span><span class="n">Acronym</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">difflib</span><span class="o">.</span><span class="n">SequenceMatcher</span><span class="p">(</span>
+                    <span class="kc">None</span><span class="p">,</span> <span class="n">material_acronym</span><span class="p">,</span> <span class="n">datum</span><span class="o">.</span><span class="n">Acronym</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">ratio</span><span class="p">()</span>
+                <span class="o">&gt;</span> <span class="mf">0.6</span>
+            <span class="p">):</span>
+                <span class="c1"># Consider a match if the similarity ratio is greater than 0.6 (adjust the threshold as needed)</span>
+                <span class="n">matched_materials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datum</span><span class="o">.</span><span class="n">Acronym</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">matched_materials</span><span class="p">:</span>
+            <span class="n">suggestions</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">matched_materials</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Material with acronym &#39;</span><span class="si">{</span><span class="n">material_acronym</span><span class="si">}</span><span class="s2">&#39; not found. Did you mean:</span><span class="se">\n</span><span class="si">{</span><span class="n">suggestions</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Material with acronym &#39;</span><span class="si">{</span><span class="n">material_acronym</span><span class="si">}</span><span class="s2">&#39; not found in the data.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../../index.html" title="index">
+          <img class="logo" src="../../_static/pyne_icon_small.png" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Materials Compendium</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">materials_compendium.utils</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer">
+    <div style="background-color:rgba(255,255,255,0.5);display:inline-block;border-radius:10px;padding:6px;">
+        
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2023, The PyNE Development Team.
+      Last updated on Aug 16, 2023.
+    </div><script type="text/javascript">
+    if(ga_enabled){
+        document.write("<div class=\"footer\">This page uses <a href=\"http://analytics.google.com\">Google Analytics</a> to collect statistics. ");
+        document.write("Click <button title=\"set cookie to disable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', 'true', {expires: 3650, path: '/'}); window.location.reload(); return false; \">here</button> to disable analytics for this site.");
+        document.write("</div>");
+    }else{
+        document.write("<div class=\"footer\">Google Analytics has been disabled. ");
+        document.write("Click <button title=\"set cookie to re-enable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', null, {path: '/'}); window.location.reload(); return false; \">here</button> to re-enable analytics for this site.");
+    };
+</script>
+    <!-- cloud_sptheme 1.4 -->
+    </div>
+    </div>
+  </body>
+</html>

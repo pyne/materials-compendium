@@ -1,0 +1,94 @@
+﻿ElementInfo
+===========
+
+.. currentmodule:: materials_compendium.utils
+
+.. autoclass:: ElementInfo
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~ElementInfo.get_abundances
+      
+      
+      
+      
+      ~ElementInfo.get_all
+      
+      
+      
+      
+      ~ElementInfo.get_atom_density
+      
+      
+      
+      
+      ~ElementInfo.get_atom_density_whole
+      
+      
+      
+      
+      ~ElementInfo.get_atom_fraction
+      
+      
+      
+      
+      ~ElementInfo.get_atom_fraction_whole
+      
+      
+      
+      
+      ~ElementInfo.get_atomic_mass
+      
+      
+      
+      
+      ~ElementInfo.get_atomic_mass_whole
+      
+      
+      
+      
+      ~ElementInfo.get_element
+      
+      
+      
+      
+      ~ElementInfo.get_id
+      
+      
+      
+      
+      ~ElementInfo.get_isotopes
+      
+      
+      
+      
+      ~ElementInfo.get_non_isotopic
+      
+      
+      
+      
+      ~ElementInfo.get_weight_fraction
+      
+      
+      
+      
+      ~ElementInfo.get_weight_fraction_whole
+      
+      
+      
+      
+      ~ElementInfo.get_zaid
+      
+      
+   
+   

@@ -1,0 +1,6 @@
+materials\_compendium.utils.ContactInfo.get\_phone
+==================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: ContactInfo.get_phone

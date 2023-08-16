@@ -1,0 +1,6 @@
+materials\_compendium.utils.Material.get\_contact
+=================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: Material.get_contact

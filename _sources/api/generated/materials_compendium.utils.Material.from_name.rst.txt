@@ -1,0 +1,6 @@
+materials\_compendium.utils.Material.from\_name
+===============================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: Material.from_name

@@ -1,0 +1,6 @@
+materials\_compendium.parse.Contact.from\_dict
+==============================================
+
+.. currentmodule:: materials_compendium.parse
+
+.. automethod:: Contact.from_dict

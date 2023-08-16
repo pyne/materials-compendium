@@ -1,0 +1,391 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Materials Compendium\n",
+    "\n",
+    "In this tutorial, we will access data from the \"Compendium of Material Composition Data for Radiation Transport Modeling\" provided by the Pacific Northwest National Laboratory (PNNL). This data contains material properties, including material density, atom density, elemental and isotopic compositions provided as weight, atom fraction, and atom density. The data file is intended for radiation transport modeling and can be used with various radiation transport codes.\n",
+    "\n",
+    "## Accessing the Materials Compendium\n",
+    "To access the data from the Materials Compendium, we will use the `MaterialsCompendium` module from `materials_compendium`. First, let's import the required modules and see how many materials are in the compendium:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of materials in the Compendium: 411\n",
+      "First material name: Bone Equivalent Plastic, B-110\n",
+      "Number of elements in the first material: 6\n"
+     ]
+    }
+   ],
+   "source": [
+    "from materials_compendium import MaterialsCompendium\n",
+    "\n",
+    "# Get the number of materials in the Compendium\n",
+    "num_materials = len(MaterialsCompendium)\n",
+    "print(\"Number of materials in the Compendium:\", num_materials)\n",
+    "\n",
+    "# Get the name of the first material\n",
+    "first_material_name = MaterialsCompendium[0].Name\n",
+    "print(\"First material name:\", first_material_name)\n",
+    "\n",
+    "# Get the number of elements in the first material\n",
+    "num_elements_in_first_material = len(MaterialsCompendium[0].Elements)\n",
+    "print(\"Number of elements in the first material:\", num_elements_in_first_material)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Creating a Material Object\n",
+    "\n",
+    "To work with the material data more conveniently, PyNE provides a `Material` class. We can create a Material object from a material in the Compendium. The `Material` class allows us to access various properties and data associated with the material."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Material object:\n",
+      "Material Name: Bone Equivalent Plastic, B-110 \n",
+      "Formula: None \n",
+      "Density: 1.785\n",
+      "--------------------------------------------------\n",
+      "Complete material properties:\n",
+      "Material Name: Bone Equivalent Plastic, B-110 \n",
+      "Acronym: B-110 \n",
+      "Formula: None \n",
+      "Density: 1.785 \n",
+      "Material Atom Density: 0.09797999999999998 \n",
+      "Elements: H, C, N, O, F, Ca \n",
+      "Mat Num: 33 \n",
+      "Material Weight: 0.000000 \n",
+      "Comments:\n",
+      " The above density is estimated to be accurate to 3 significant digits. Uncertainties are not addressed.\n",
+      " The carbon fraction was adjusted from 0.3672 to 0.3673 to provide normalization to 1 \n",
+      "Source: PNNL \n",
+      "Verification Notes:  \n",
+      "References: Density and weight fractions in J. J. Spokas and D. R. White, A Conducting Plastic Simulating Cortical Bone at https://iopscience.iop.org/article/10.1088/0031-9155/27/1/012/pdf; with the carbon fraction adjusted from 0.3672 to 0.3673 to provide normalization to 1 \n",
+      "Contact:\n",
+      " Name: Rebecca Detwiler \n",
+      " Phone: 352-484-4040 \n",
+      " Email: Rebecca.Detwiler@pnnl.gov\n"
+     ]
+    }
+   ],
+   "source": [
+    "from materials_compendium.utils import Material\n",
+    "\n",
+    "# Create a Material object from the first material in the Compendium\n",
+    "material_obj = Material(MaterialsCompendium[0])\n",
+    "\n",
+    "# Print the basic information about the material\n",
+    "print(\"Material object:\")\n",
+    "print(material_obj)\n",
+    "print(\"-\"*50)\n",
+    "# Print the complete properties of the material\n",
+    "print(\"Complete material properties:\")\n",
+    "print(material_obj.get_all())\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Accessing Element and Isotope Information\n",
+    "The Material class is integrated with other classes, such as `ElementInfo` and `IsotopeInfo`, to provide more detailed information about elements and isotopes present in the material."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Elements information:\n",
+      "Index: 0 \n",
+      " Element: H \n",
+      " ZAID: 1000 \n",
+      " Isotopes:H1, H2\n",
+      "Index: 1 \n",
+      " Element: C \n",
+      " ZAID: 6000 \n",
+      " Isotopes:C12, C13\n",
+      "Index: 2 \n",
+      " Element: N \n",
+      " ZAID: 7000 \n",
+      " Isotopes:N14, N15\n",
+      "Index: 3 \n",
+      " Element: O \n",
+      " ZAID: 8000 \n",
+      " Isotopes:O16, O17, O18\n",
+      "Index: 4 \n",
+      " Element: F \n",
+      " ZAID: 9000 \n",
+      " Isotopes:F19\n",
+      "Index: 5 \n",
+      " Element: Ca \n",
+      " ZAID: 20000 \n",
+      " Isotopes:Ca40, Ca42, Ca43, Ca44, Ca46, Ca48\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Get information about all elements in the material\n",
+    "elements_info = material_obj.get_elements()\n",
+    "print(\"Elements information:\")\n",
+    "print(elements_info)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Complete information of the first isotope of the first element:\n",
+      "Isotope: H1 \n",
+      " ZAID: 1001 \n",
+      " Weight Percent: 0.999736 \n",
+      " Weight Fraction (Whole): 0.0354906363733931 \n",
+      " Isotopic Weight Fraction (Whole): 0.9997362358702283 \n",
+      " Weight Fraction: 0.035491 \n",
+      " Abundance: 0.999885 \n",
+      " Isotopic Atom Density: 0.037855 \n",
+      " Atomic Number (Whole): 1 \n",
+      " Atom Fraction: 0.386351 \n",
+      " Atomic Number: 1 \n",
+      " Isotopic Weight Fraction: 0.999736 \n",
+      " Relative Atomic Mass: 1.007825 \n",
+      " Relative Atomic Mass (Whole): 1.00782503223 \n",
+      " Isotopic Atom Fraction: 0.999885 \n",
+      " Abundance (Whole): 0.999885 \n",
+      " Isotopic Atom Fraction (Whole): 0.999885 \n",
+      " Atom Fraction (Whole): 0.386350546172812 \n",
+      " Isotopic Atom Density (Whole): 0.0378545221546933 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Get complete information about the first isotope of the first element in the material\n",
+    "isotope_info = material_obj.elements[0].isotopes[0].get_all()\n",
+    "print(\"Complete information of the first isotope of the first element:\")\n",
+    "print(isotope_info)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Accessing Materials by Name, Formula, or Acronym\n",
+    "We can also access specific materials directly from the Compendium using their names, formulas, or acronyms using the `from_name`, `from_formula`, and `from_acronym` functions."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Material 'Liquid' not found. Did you mean:\n",
+      "Water, Liquid\n"
+     ]
+    }
+   ],
+   "source": [
+    "mat2 = Material.from_name(\"Liquid\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It appears that the compendium does not contain information specifically about \"Liquid\" material. However, it does provide suggestions for related materials. Let's explore one of the suggested materials instead."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Material Name: Water, Liquid \n",
+      "Formula: H2O \n",
+      "Density: 0.997\n"
+     ]
+    }
+   ],
+   "source": [
+    "mat2 = Material.from_name(\"Water, Liquid\")\n",
+    "print(mat2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also try to access a material by its chemical formula."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Material Name: Uranium Dioxide \n",
+      "Formula: UO2 \n",
+      "Density: 10.96\n"
+     ]
+    }
+   ],
+   "source": [
+    "mat3 = Material.from_formula(\"UO2\")\n",
+    "print(mat3)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To get more specific data, we can use `get_[something]` functions. For example:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['CAS # 1344-57-6', 'Uranium isotopics assumed for LEU:  Wt% U234/235/236/238 =   0.0267/3.0/0.0138/96.9595.']\n",
+      "BNL/ORNL\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(mat3.get_comment())\n",
+    "print(mat3.get_source())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Advanced Example:\n",
+    "\n",
+    "As an advanced example, we can find materials that contain a specific isotope (e.g., U-235) in their compositions."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Materials containing U235\n",
+      "Uranium Trioxide\n",
+      "Uranium Dicarbide\n",
+      "Uranium Hydride\n",
+      "Uranium Oxide\n",
+      "Uranium Nitride\n",
+      "Uranium Tetrafluoride\n",
+      "Uranium Dioxide\n",
+      "Uranium Carbide\n",
+      "Uranium Hexafluoride\n",
+      "Uranyl Fluoride\n",
+      "Uranyl Nitrate\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Define the isotope you want to search for\n",
+    "target_isotope = \"U235\"\n",
+    "\n",
+    "# Create an empty list to store the names of materials containing the target isotope\n",
+    "materials_with_isotope = []\n",
+    "\n",
+    "# Loop through each material entry in the Compendium\n",
+    "for material in MaterialsCompendium:\n",
+    "    # Check if the target isotope is present in the material's isotopes\n",
+    "    for element in material.Elements:\n",
+    "        for isotope in element.Isotopes:\n",
+    "            if isotope.Isotope == target_isotope:\n",
+    "                # If the isotope is found in the material, add the material name to the list\n",
+    "                materials_with_isotope.append(material.Name)\n",
+    "\n",
+    "# Print the material names containing the target isotope\n",
+    "print(\"Materials containing\", target_isotope)\n",
+    "for material in materials_with_isotope:\n",
+    "    print(material)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Conclusion\n",
+    "\n",
+    "In this tutorial, we learned how to access and utilize data from the Materials Compendium. With this information, you can perform various analyses and simulations related to radiation transport modeling. PyNE provides powerful tools to extract and manipulate material properties, which can be valuable for researchers and engineers working in the field of nuclear and radiation engineering."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "nuclear-boy",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  },
+  "orig_nbformat": 4
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

@@ -1,0 +1,24 @@
+﻿Contact
+=======
+
+.. currentmodule:: materials_compendium.parse
+
+.. autoclass:: Contact
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~Contact.from_dict
+      
+      
+   
+   

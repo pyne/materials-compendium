@@ -1,0 +1,6 @@
+materials\_compendium.utils.Material.from\_formula
+==================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: Material.from_formula

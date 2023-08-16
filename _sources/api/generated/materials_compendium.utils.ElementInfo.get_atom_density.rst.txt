@@ -1,0 +1,6 @@
+materials\_compendium.utils.ElementInfo.get\_atom\_density
+==========================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: ElementInfo.get_atom_density

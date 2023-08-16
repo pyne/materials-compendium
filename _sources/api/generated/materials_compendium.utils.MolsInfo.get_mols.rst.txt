@@ -1,0 +1,6 @@
+materials\_compendium.utils.MolsInfo.get\_mols
+==============================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: MolsInfo.get_mols

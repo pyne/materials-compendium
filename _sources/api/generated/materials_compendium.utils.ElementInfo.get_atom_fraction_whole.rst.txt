@@ -1,0 +1,6 @@
+materials\_compendium.utils.ElementInfo.get\_atom\_fraction\_whole
+==================================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: ElementInfo.get_atom_fraction_whole

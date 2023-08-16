@@ -1,0 +1,581 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>materials_compendium.parse &#8212; Materials Compendium 0.1.dev1+g7b1921f</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pyne.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../../_static/cloud.js"></script>
+    
+
+    <link rel="shortcut icon" href="../../_static/pyne_icon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"><script type="text/javascript">
+var ga_enabled = !$.cookie('disable-ga');
+if(ga_enabled){
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37452818-1']);
+  _gaq.push(['_setCookiePath', '/']);
+  _gaq.push(['_setDetectFlash', false]);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
+</script>
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Materials Compendium</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">materials_compendium.parse</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for materials_compendium.parse</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This Python script parses the JSON data from the &quot;Compendium of Material</span>
+<span class="sd">Composition Data for Radiation Transport Modeling&quot; provided by the Pacific</span>
+<span class="sd">Northwest National Laboratory (PNNL). The JSON file contains material properties,</span>
+<span class="sd">including material density, atom density, elemental and isotopic compositions</span>
+<span class="sd">provided as weight, atom fraction, and atom density. The data in the JSON file</span>
+<span class="sd">is intended for radiation transport modeling and can be used with various radiation</span>
+<span class="sd">transport codes.</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">1. Ensure you have downloaded the JSON file &quot;Materials Compendium&quot; from PNNL.</span>
+<span class="sd">2. Place the JSON file in the same directory as this script.</span>
+<span class="sd">3. Run this script using a Python interpreter.</span>
+
+<span class="sd">Disclaimer:</span>
+<span class="sd">- The material composition data in the JSON file is based on Revision 2 of the Compendium</span>
+<span class="sd">    and is provided with references. Users should be aware of variabilities in composition</span>
+<span class="sd">    or densities for certain materials, and ranges are shown where possible in the references.</span>
+<span class="sd">- Users may need to supply application-specific impurities for certain materials if they are</span>
+<span class="sd">    not found in the known references.</span>
+<span class="sd">- It is essential to ensure that the chosen radiation transport code uses appropriate</span>
+<span class="sd">    simulation parameters (e.g., reaction cross sections) to ensure simulation accuracy.</span>
+
+<span class="sd">Note:</span>
+<span class="sd">- This script is specifically designed to parse the JSON file for radiation transport</span>
+<span class="sd">    modeling but can potentially be adapted for other purposes.</span>
+
+
+<span class="sd">For more information about the Compendium, visit https://compendium.cwmd.pnnl.gov/</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+
+<div class="viewcode-block" id="Contact"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Contact.html#materials_compendium.parse.Contact">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Contact</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a contact with phone, name, and email attributes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Phone</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">Name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">Email</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="Contact.from_dict"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Contact.from_dict.html#materials_compendium.parse.Contact.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Contact&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Contact object from a dictionary representation.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        obj (Optional[dict]): A dictionary containing keys &quot;Phone&quot;, &quot;Name&quot;, and &quot;Email&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        Optional[Contact]: A new Contact object with attributes initialized using the values from the dictionary,</span>
+<span class="sd">                           or blank data if the input dictionary is None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_Phone</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Phone&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+            <span class="n">_Name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+            <span class="n">_Email</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Email&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_Phone</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">_Name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">_Email</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Contact</span><span class="p">(</span><span class="n">_Phone</span><span class="p">,</span> <span class="n">_Name</span><span class="p">,</span> <span class="n">_Email</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Isotope"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Isotope.html#materials_compendium.parse.Isotope">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Isotope</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an isotope with various attributes related to its properties.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        WeightPercent (float): Weight percent of the isotope.</span>
+<span class="sd">        Isotope (str): The name or identifier of the isotope.</span>
+<span class="sd">        WeightFraction_whole (float): Weight fraction of the isotope as a whole number.</span>
+<span class="sd">        IsotopicWeightFraction_whole (float): Isotopic weight fraction of the</span>
+<span class="sd">        isotope as a whole number.</span>
+<span class="sd">        WeightFraction (float): Weight fraction of the isotope.</span>
+<span class="sd">        Abundance (float): Abundance of the isotope.</span>
+<span class="sd">        IsotopicAtomDensity (float): Isotopic atom density of the isotope.</span>
+<span class="sd">        AtomicNumber_whole (int): Atomic number of the isotope as a whole number.</span>
+<span class="sd">        ZAID (str): ZAID (unique identifier) of the isotope.</span>
+<span class="sd">        AtomFraction (float): Atom fraction of the isotope.</span>
+<span class="sd">        AtomicNumber (int): Atomic number of the isotope.</span>
+<span class="sd">        IsotopicWeightFraction (float): Isotopic weight fraction of the isotope.</span>
+<span class="sd">        RelativeAtomicMass (float): Relative atomic mass of the isotope.</span>
+<span class="sd">        RelativeAtomicMass_whole (float): Relative atomic mass of the isotope as a whole number.</span>
+<span class="sd">        IsotopicAtomFraction (float): Isotopic atom fraction of the isotope.</span>
+<span class="sd">        Abundance_whole (float): Abundance of the isotope as a whole number.</span>
+<span class="sd">        IsotopicAtomFraction_whole (float): Isotopic atom fraction of the isotope as a whole number.</span>
+<span class="sd">        AtomFraction_whole (float): Atom fraction of the isotope as a whole number.</span>
+<span class="sd">        IsotopicAtomDensity_whole (float): Isotopic atom density of the isotope as a whole number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">WeightPercent</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">Isotope</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">WeightFraction_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">IsotopicWeightFraction_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">WeightFraction</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">Abundance</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">IsotopicAtomDensity</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">AtomicNumber_whole</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">ZAID</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">AtomFraction</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">AtomicNumber</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">IsotopicWeightFraction</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">RelativeAtomicMass</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">RelativeAtomicMass_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">IsotopicAtomFraction</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">Abundance_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">IsotopicAtomFraction_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">AtomFraction_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">IsotopicAtomDensity_whole</span><span class="p">:</span> <span class="nb">float</span>
+
+<div class="viewcode-block" id="Isotope.from_dict"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Isotope.from_dict.html#materials_compendium.parse.Isotope.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Isotope&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an Isotope object from a dictionary representation.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            obj (dict): A dictionary containing attributes of the Isotope.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Isotope: A new Isotope object with attributes initialized using the values</span>
+<span class="sd">            from the dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_WeightPercent</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;WeightPercent&quot;</span><span class="p">))</span>
+        <span class="n">_Isotope</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Isotope&quot;</span><span class="p">))</span>
+        <span class="n">_WeightFraction_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;WeightFraction_whole&quot;</span><span class="p">))</span>
+        <span class="n">_IsotopicWeightFraction_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IsotopicWeightFraction_whole&quot;</span><span class="p">))</span>
+        <span class="n">_WeightFraction</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;WeightFraction&quot;</span><span class="p">))</span>
+        <span class="n">_Abundance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Abundance&quot;</span><span class="p">))</span>
+        <span class="n">_IsotopicAtomDensity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IsotopicAtomDensity&quot;</span><span class="p">))</span>
+        <span class="n">_AtomicNumber_whole</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomicNumber_whole&quot;</span><span class="p">))</span>
+        <span class="n">_ZAID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ZAID&quot;</span><span class="p">))</span>
+        <span class="n">_AtomFraction</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomFraction&quot;</span><span class="p">))</span>
+        <span class="n">_AtomicNumber</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomicNumber&quot;</span><span class="p">))</span>
+        <span class="n">_IsotopicWeightFraction</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IsotopicWeightFraction&quot;</span><span class="p">))</span>
+        <span class="n">_RelativeAtomicMass</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RelativeAtomicMass&quot;</span><span class="p">))</span>
+        <span class="n">_RelativeAtomicMass_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RelativeAtomicMass_whole&quot;</span><span class="p">))</span>
+        <span class="n">_IsotopicAtomFraction</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IsotopicAtomFraction&quot;</span><span class="p">))</span>
+        <span class="n">_Abundance_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Abundance_whole&quot;</span><span class="p">))</span>
+        <span class="n">_IsotopicAtomFraction_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IsotopicAtomFraction_whole&quot;</span><span class="p">))</span>
+        <span class="n">_AtomFraction_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomFraction_whole&quot;</span><span class="p">))</span>
+        <span class="n">_IsotopicAtomDensity_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IsotopicAtomDensity_whole&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Isotope</span><span class="p">(</span>
+            <span class="n">_WeightPercent</span><span class="p">,</span>
+            <span class="n">_Isotope</span><span class="p">,</span>
+            <span class="n">_WeightFraction_whole</span><span class="p">,</span>
+            <span class="n">_IsotopicWeightFraction_whole</span><span class="p">,</span>
+            <span class="n">_WeightFraction</span><span class="p">,</span>
+            <span class="n">_Abundance</span><span class="p">,</span>
+            <span class="n">_IsotopicAtomDensity</span><span class="p">,</span>
+            <span class="n">_AtomicNumber_whole</span><span class="p">,</span>
+            <span class="n">_ZAID</span><span class="p">,</span>
+            <span class="n">_AtomFraction</span><span class="p">,</span>
+            <span class="n">_AtomicNumber</span><span class="p">,</span>
+            <span class="n">_IsotopicWeightFraction</span><span class="p">,</span>
+            <span class="n">_RelativeAtomicMass</span><span class="p">,</span>
+            <span class="n">_RelativeAtomicMass_whole</span><span class="p">,</span>
+            <span class="n">_IsotopicAtomFraction</span><span class="p">,</span>
+            <span class="n">_Abundance_whole</span><span class="p">,</span>
+            <span class="n">_IsotopicAtomFraction_whole</span><span class="p">,</span>
+            <span class="n">_AtomFraction_whole</span><span class="p">,</span>
+            <span class="n">_IsotopicAtomDensity_whole</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Element"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Element.html#materials_compendium.parse.Element">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Element</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an element with various attributes related to its properties.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        WeightFraction_whole (float): Weight fraction of the element as a whole number.</span>
+<span class="sd">        NonIsotopic (bool): Whether the element is non-isotopic.</span>
+<span class="sd">        Element (str): The name or identifier of the element.</span>
+<span class="sd">        WeightFraction (float): Weight fraction of the element.</span>
+<span class="sd">        AtomicMass (float): Atomic mass of the element.</span>
+<span class="sd">        ZAID (str): ZAID (unique identifier) of the element.</span>
+<span class="sd">        AtomFraction (float): Atom fraction of the element.</span>
+<span class="sd">        AtomDensity_whole (float): Atom density of the element as a whole number.</span>
+<span class="sd">        AtomFraction_whole (float): Atom fraction of the element as a whole number.</span>
+<span class="sd">        id (str): Identifier of the element.</span>
+<span class="sd">        Isotopes (List[Isotope]): List of Isotope objects representing the isotopes of the element.</span>
+<span class="sd">        AtomDensity (float): Atom density of the element.</span>
+<span class="sd">        AtomicMass_whole (float): Atomic mass of the element as a whole number.</span>
+<span class="sd">        Abundances (str): Abundances of the element.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">WeightFraction_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">NonIsotopic</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">Element</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">WeightFraction</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">AtomicMass</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">ZAID</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">AtomFraction</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">AtomDensity_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">AtomFraction_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">Isotopes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Isotope</span><span class="p">]</span>
+    <span class="n">AtomDensity</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">AtomicMass_whole</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">Abundances</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="Element.from_dict"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Element.from_dict.html#materials_compendium.parse.Element.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Element&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an Element object from a dictionary representation.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            obj (dict): A dictionary containing attributes of the Element.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Element: A new Element object with attributes initialized using the values from the dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">_WeightFraction_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;WeightFraction_whole&quot;</span><span class="p">))</span>
+        <span class="n">_NonIsotopic</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NonIsotopic&quot;</span><span class="p">))</span>
+        <span class="n">_Element</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Element&quot;</span><span class="p">))</span>
+        <span class="n">_WeightFraction</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;WeightFraction&quot;</span><span class="p">))</span>
+        <span class="n">_AtomicMass</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomicMass&quot;</span><span class="p">))</span>
+        <span class="n">_ZAID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ZAID&quot;</span><span class="p">))</span>
+        <span class="n">_AtomFraction</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomFraction&quot;</span><span class="p">))</span>
+        <span class="n">_AtomDensity_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomDensity_whole&quot;</span><span class="p">))</span>
+        <span class="n">_AtomFraction_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomFraction_whole&quot;</span><span class="p">))</span>
+        <span class="n">_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span>
+        <span class="n">_Isotopes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Isotope</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Isotopes&quot;</span><span class="p">)]</span>
+        <span class="n">_AtomDensity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomDensity&quot;</span><span class="p">))</span>
+        <span class="n">_AtomicMass_whole</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;AtomicMass_whole&quot;</span><span class="p">))</span>
+        <span class="n">_Abundances</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Abundances&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Element</span><span class="p">(</span>
+            <span class="n">_WeightFraction_whole</span><span class="p">,</span>
+            <span class="n">_NonIsotopic</span><span class="p">,</span>
+            <span class="n">_Element</span><span class="p">,</span>
+            <span class="n">_WeightFraction</span><span class="p">,</span>
+            <span class="n">_AtomicMass</span><span class="p">,</span>
+            <span class="n">_ZAID</span><span class="p">,</span>
+            <span class="n">_AtomFraction</span><span class="p">,</span>
+            <span class="n">_AtomDensity_whole</span><span class="p">,</span>
+            <span class="n">_AtomFraction_whole</span><span class="p">,</span>
+            <span class="n">_id</span><span class="p">,</span>
+            <span class="n">_Isotopes</span><span class="p">,</span>
+            <span class="n">_AtomDensity</span><span class="p">,</span>
+            <span class="n">_AtomicMass_whole</span><span class="p">,</span>
+            <span class="n">_Abundances</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Mol"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Mol.html#materials_compendium.parse.Mol">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Mol</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a molecular entity with various attributes related to its properties.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        Mols (int): The number of moles of the molecular entity.</span>
+<span class="sd">        Element (str): The name or identifier of the element in the molecular entity.</span>
+<span class="sd">        Isotope (str): The name or identifier of the isotope in the molecular entity.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Mols</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">Element</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">Isotope</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="Mol.from_dict"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Mol.from_dict.html#materials_compendium.parse.Mol.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Mol&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Mol object from a dictionary representation.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            obj (dict): A dictionary containing attributes of the Mol.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mol: A new Mol object with attributes initialized using the values from the dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_Mols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Mols&quot;</span><span class="p">))</span>
+        <span class="n">_Element</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Element&quot;</span><span class="p">))</span>
+        <span class="n">_Isotope</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Isotope&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Mol</span><span class="p">(</span><span class="n">_Mols</span><span class="p">,</span> <span class="n">_Element</span><span class="p">,</span> <span class="n">_Isotope</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Datum"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Datum.html#materials_compendium.parse.Datum">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Datum</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a data entry with various attributes related to its properties.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        Comment (List[str]): List of comments associated with the data entry.</span>
+<span class="sd">        Density (float): The density value of the data entry.</span>
+<span class="sd">        Acronym (object): An acronym or abbreviation associated with the data entry.</span>
+<span class="sd">        Elements (List[Element]): List of Element objects representing the elements in the data entry.</span>
+<span class="sd">        Source (str): The source of the data entry.</span>
+<span class="sd">        References (List[str]): List of references associated with the data entry.</span>
+<span class="sd">        Contact (Contact): A Contact object representing the contact information related to the data entry.</span>
+<span class="sd">        MaterialAtomDensity (float): The material atom density value of the data entry.</span>
+<span class="sd">        Mols (List[Mol]): List of Mol objects representing the molecular entities in the data entry.</span>
+<span class="sd">        MatNum (int): The material number associated with the data entry.</span>
+<span class="sd">        MaterialWeight (str): The material weight information of the data entry.</span>
+<span class="sd">        Name (str): The name of the data entry.</span>
+<span class="sd">        Verification_Notes (List[str]): List of verification notes related to the data entry.</span>
+<span class="sd">        Formula (str): The formula associated with the data entry.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Comment</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Density</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">Acronym</span><span class="p">:</span> <span class="nb">object</span>
+    <span class="n">Elements</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Element</span><span class="p">]</span>
+    <span class="n">Source</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">References</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Contact</span><span class="p">:</span> <span class="n">Contact</span>
+    <span class="n">MaterialAtomDensity</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">Mols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Mol</span><span class="p">]</span>
+    <span class="n">MatNum</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">MaterialWeight</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">Name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">Verification_Notes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Formula</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="Datum.from_dict"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Datum.from_dict.html#materials_compendium.parse.Datum.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Datum&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Datum object from a dictionary representation.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            obj (dict): A dictionary containing attributes of the Datum.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Datum: A new Datum object with attributes initialized using the values from the dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_Comment</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Comment&quot;</span><span class="p">)</span>
+        <span class="n">_Density</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Density&quot;</span><span class="p">))</span>
+        <span class="n">_Acronym</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Acronym&quot;</span><span class="p">)</span>
+        <span class="n">_Elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">Element</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Elements&quot;</span><span class="p">)]</span>
+        <span class="n">_Source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Source&quot;</span><span class="p">))</span>
+        <span class="n">_References</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;References&quot;</span><span class="p">)</span>
+        <span class="n">_Contact</span> <span class="o">=</span> <span class="n">Contact</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Contact&quot;</span><span class="p">))</span>
+        <span class="n">_MaterialAtomDensity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MaterialAtomDensity&quot;</span><span class="p">))</span>
+        <span class="n">_Mols</span> <span class="o">=</span> <span class="p">[</span><span class="n">Mol</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Mols&quot;</span><span class="p">)]</span>
+        <span class="n">_MatNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MatNum&quot;</span><span class="p">))</span>
+        <span class="n">_MaterialWeight</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MaterialWeight&quot;</span><span class="p">))</span>
+        <span class="n">_Name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">))</span>
+        <span class="n">_Verification_Notes</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Verification Notes&quot;</span><span class="p">)</span>
+        <span class="n">_Formula</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Formula&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Datum</span><span class="p">(</span>
+            <span class="n">_Comment</span><span class="p">,</span>
+            <span class="n">_Density</span><span class="p">,</span>
+            <span class="n">_Acronym</span><span class="p">,</span>
+            <span class="n">_Elements</span><span class="p">,</span>
+            <span class="n">_Source</span><span class="p">,</span>
+            <span class="n">_References</span><span class="p">,</span>
+            <span class="n">_Contact</span><span class="p">,</span>
+            <span class="n">_MaterialAtomDensity</span><span class="p">,</span>
+            <span class="n">_Mols</span><span class="p">,</span>
+            <span class="n">_MatNum</span><span class="p">,</span>
+            <span class="n">_MaterialWeight</span><span class="p">,</span>
+            <span class="n">_Name</span><span class="p">,</span>
+            <span class="n">_Verification_Notes</span><span class="p">,</span>
+            <span class="n">_Formula</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<span class="c1"># Data class for representing the root of the JSON data</span>
+<div class="viewcode-block" id="Root"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Root.html#materials_compendium.parse.Root">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Root</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a root object that contains site version and a list of data entries.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        siteVersion (str): The site version associated with the root object.</span>
+<span class="sd">        data (List[Datum]): List of Datum objects representing the data entries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">siteVersion</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Datum</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Root.from_dict"><a class="viewcode-back" href="../../api/generated/materials_compendium.parse.Root.from_dict.html#materials_compendium.parse.Root.from_dict">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Root&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Root object from a dictionary representation.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            obj (dict): A dictionary containing attributes of the Root.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Root: A new Root object with attributes initialized using the values from the dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_siteVersion</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;siteVersion&quot;</span><span class="p">))</span>
+        <span class="n">_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">Datum</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">Root</span><span class="p">(</span><span class="n">_siteVersion</span><span class="p">,</span> <span class="n">_data</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># Get the current directory of the script</span>
+<span class="n">current_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+<span class="c1"># Construct the path to the JSON file</span>
+<span class="n">json_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_directory</span><span class="p">,</span> <span class="s2">&quot;MaterialsCompendium.json&quot;</span><span class="p">)</span>
+
+<span class="c1"># Read the JSON data from the file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">jsonstring</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># Convert the JSON data into a Python dictionary</span>
+<span class="n">json_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">jsonstring</span><span class="p">)</span>
+
+<span class="c1"># Convert the Python dictionary into structured objects using the Root class</span>
+<span class="n">MaterialsCompendium</span> <span class="o">=</span> <span class="n">Root</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../../index.html" title="index">
+          <img class="logo" src="../../_static/pyne_icon_small.png" alt="Logo"/>
+        </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../../index.html">Materials Compendium</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">materials_compendium.parse</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer">
+    <div style="background-color:rgba(255,255,255,0.5);display:inline-block;border-radius:10px;padding:6px;">
+        
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2023, The PyNE Development Team.
+      Last updated on Aug 16, 2023.
+    </div><script type="text/javascript">
+    if(ga_enabled){
+        document.write("<div class=\"footer\">This page uses <a href=\"http://analytics.google.com\">Google Analytics</a> to collect statistics. ");
+        document.write("Click <button title=\"set cookie to disable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', 'true', {expires: 3650, path: '/'}); window.location.reload(); return false; \">here</button> to disable analytics for this site.");
+        document.write("</div>");
+    }else{
+        document.write("<div class=\"footer\">Google Analytics has been disabled. ");
+        document.write("Click <button title=\"set cookie to re-enable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', null, {path: '/'}); window.location.reload(); return false; \">here</button> to re-enable analytics for this site.");
+    };
+</script>
+    <!-- cloud_sptheme 1.4 -->
+    </div>
+    </div>
+  </body>
+</html>

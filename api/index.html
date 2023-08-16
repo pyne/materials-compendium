@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>API Reference &#8212; Materials Compendium 0.1.dev1+g7b1921f</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyne.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="shortcut icon" href="../_static/pyne_icon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"><script type="text/javascript">
+var ga_enabled = !$.cookie('disable-ga');
+if(ga_enabled){
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37452818-1']);
+  _gaq.push(['_setCookiePath', '/']);
+  _gaq.push(['_setDetectFlash', false]);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
+</script>
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Materials Compendium</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">API Reference</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-materials_compendium">
+<span id="api-reference"></span><span id="api"></span><h1>API Reference<a class="headerlink" href="#module-materials_compendium" title="Permalink to this heading">¶</a></h1>
+<section id="low-level-interface">
+<h2>Low-level Interface<a class="headerlink" href="#low-level-interface" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/materials_compendium.parse.Contact.html#materials_compendium.parse.Contact" title="materials_compendium.parse.Contact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse.Contact</span></code></a></p></td>
+<td><p>Represents a contact with phone, name, and email attributes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/materials_compendium.parse.Isotope.html#materials_compendium.parse.Isotope" title="materials_compendium.parse.Isotope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse.Isotope</span></code></a></p></td>
+<td><p>Represents an isotope with various attributes related to its properties.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/materials_compendium.parse.Element.html#materials_compendium.parse.Element" title="materials_compendium.parse.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse.Element</span></code></a></p></td>
+<td><p>Represents an element with various attributes related to its properties.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/materials_compendium.parse.Mol.html#materials_compendium.parse.Mol" title="materials_compendium.parse.Mol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse.Mol</span></code></a></p></td>
+<td><p>Represents a molecular entity with various attributes related to its properties.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/materials_compendium.parse.Datum.html#materials_compendium.parse.Datum" title="materials_compendium.parse.Datum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse.Datum</span></code></a></p></td>
+<td><p>Represents a data entry with various attributes related to its properties.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/materials_compendium.parse.Root.html#materials_compendium.parse.Root" title="materials_compendium.parse.Root"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse.Root</span></code></a></p></td>
+<td><p>Represents a root object that contains site version and a list of data entries.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="high-level-interface">
+<h2>High-level Interface<a class="headerlink" href="#high-level-interface" title="Permalink to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/materials_compendium.utils.ContactInfo.html#materials_compendium.utils.ContactInfo" title="materials_compendium.utils.ContactInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.ContactInfo</span></code></a></p></td>
+<td><p>Initialize a ContactInfo object with contact data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/materials_compendium.utils.MolsInfo.html#materials_compendium.utils.MolsInfo" title="materials_compendium.utils.MolsInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.MolsInfo</span></code></a></p></td>
+<td><p>Initialize a MolsInfo object with molecular data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/materials_compendium.utils.IsotopeInfo.html#materials_compendium.utils.IsotopeInfo" title="materials_compendium.utils.IsotopeInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.IsotopeInfo</span></code></a></p></td>
+<td><p>Initialize an IsotopeInfo object with isotope data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/materials_compendium.utils.ElementInfo.html#materials_compendium.utils.ElementInfo" title="materials_compendium.utils.ElementInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.ElementInfo</span></code></a></p></td>
+<td><p>Initialize an ElementInfo object with element data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/materials_compendium.utils.Material.html#materials_compendium.utils.Material" title="materials_compendium.utils.Material"><code class="xref py py-obj docutils literal notranslate"><span class="pre">utils.Material</span></code></a></p></td>
+<td><p>Initialize a Material object with material data.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../index.html" title="index">
+          <img class="logo" src="../_static/pyne_icon_small.png" alt="Logo"/>
+        </a></p><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="../index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">API Reference</a><ul>
+<li><a class="reference internal" href="#low-level-interface">Low-level Interface</a></li>
+<li><a class="reference internal" href="#high-level-interface">High-level Interface</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Materials Compendium</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">API Reference</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer">
+    <div style="background-color:rgba(255,255,255,0.5);display:inline-block;border-radius:10px;padding:6px;">
+        
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2023, The PyNE Development Team.
+      Last updated on Aug 16, 2023.
+    </div><script type="text/javascript">
+    if(ga_enabled){
+        document.write("<div class=\"footer\">This page uses <a href=\"http://analytics.google.com\">Google Analytics</a> to collect statistics. ");
+        document.write("Click <button title=\"set cookie to disable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', 'true', {expires: 3650, path: '/'}); window.location.reload(); return false; \">here</button> to disable analytics for this site.");
+        document.write("</div>");
+    }else{
+        document.write("<div class=\"footer\">Google Analytics has been disabled. ");
+        document.write("Click <button title=\"set cookie to re-enable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', null, {path: '/'}); window.location.reload(); return false; \">here</button> to re-enable analytics for this site.");
+    };
+</script>
+    <!-- cloud_sptheme 1.4 -->
+    </div>
+    </div>
+  </body>
+</html>

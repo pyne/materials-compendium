@@ -1,0 +1,24 @@
+﻿Element
+=======
+
+.. currentmodule:: materials_compendium.parse
+
+.. autoclass:: Element
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~Element.from_dict
+      
+      
+   
+   

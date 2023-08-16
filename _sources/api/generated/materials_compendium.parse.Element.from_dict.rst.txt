@@ -1,0 +1,6 @@
+materials\_compendium.parse.Element.from\_dict
+==============================================
+
+.. currentmodule:: materials_compendium.parse
+
+.. automethod:: Element.from_dict

@@ -1,0 +1,6 @@
+materials\_compendium.parse.Isotope.from\_dict
+==============================================
+
+.. currentmodule:: materials_compendium.parse
+
+.. automethod:: Isotope.from_dict

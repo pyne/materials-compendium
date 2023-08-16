@@ -1,0 +1,24 @@
+﻿Datum
+=====
+
+.. currentmodule:: materials_compendium.parse
+
+.. autoclass:: Datum
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~Datum.from_dict
+      
+      
+   
+   

@@ -1,0 +1,34 @@
+﻿ContactInfo
+===========
+
+.. currentmodule:: materials_compendium.utils
+
+.. autoclass:: ContactInfo
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~ContactInfo.get_email
+      
+      
+      
+      
+      ~ContactInfo.get_name
+      
+      
+      
+      
+      ~ContactInfo.get_phone
+      
+      
+   
+   

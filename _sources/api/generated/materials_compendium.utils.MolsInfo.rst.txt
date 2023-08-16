@@ -1,0 +1,34 @@
+﻿MolsInfo
+========
+
+.. currentmodule:: materials_compendium.utils
+
+.. autoclass:: MolsInfo
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~MolsInfo.get_element
+      
+      
+      
+      
+      ~MolsInfo.get_isotope
+      
+      
+      
+      
+      ~MolsInfo.get_mols
+      
+      
+   
+   

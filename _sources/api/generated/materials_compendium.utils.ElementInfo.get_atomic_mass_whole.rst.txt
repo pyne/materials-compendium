@@ -1,0 +1,6 @@
+materials\_compendium.utils.ElementInfo.get\_atomic\_mass\_whole
+================================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: ElementInfo.get_atomic_mass_whole

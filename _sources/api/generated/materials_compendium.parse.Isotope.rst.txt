@@ -1,0 +1,24 @@
+﻿Isotope
+=======
+
+.. currentmodule:: materials_compendium.parse
+
+.. autoclass:: Isotope
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~Isotope.from_dict
+      
+      
+   
+   

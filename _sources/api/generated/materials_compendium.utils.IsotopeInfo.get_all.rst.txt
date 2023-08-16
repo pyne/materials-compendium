@@ -1,0 +1,6 @@
+materials\_compendium.utils.IsotopeInfo.get\_all
+================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: IsotopeInfo.get_all

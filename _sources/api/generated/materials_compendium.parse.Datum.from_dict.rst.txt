@@ -1,0 +1,6 @@
+materials\_compendium.parse.Datum.from\_dict
+============================================
+
+.. currentmodule:: materials_compendium.parse
+
+.. automethod:: Datum.from_dict

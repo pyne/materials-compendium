@@ -1,0 +1,24 @@
+﻿Root
+====
+
+.. currentmodule:: materials_compendium.parse
+
+.. autoclass:: Root
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~Root.from_dict
+      
+      
+   
+   

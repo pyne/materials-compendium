@@ -1,0 +1,6 @@
+materials\_compendium.utils.Material.from\_acronym
+==================================================
+
+.. currentmodule:: materials_compendium.utils
+
+.. automethod:: Material.from_acronym

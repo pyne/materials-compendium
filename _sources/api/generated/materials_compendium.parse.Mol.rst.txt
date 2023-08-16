@@ -1,0 +1,24 @@
+﻿Mol
+===
+
+.. currentmodule:: materials_compendium.parse
+
+.. autoclass:: Mol
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~Mol.from_dict
+      
+      
+   
+   

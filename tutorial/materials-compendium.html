@@ -1,0 +1,455 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Materials Compendium &#8212; Materials Compendium 0.1.dev1+g7b1921f</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyne.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text:400,i,b,bi|Open+Sans:400,i,b,bi|Roboto+Mono:400,i,b,bi&amp;display=swap" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+    
+    
+     
+        <script src="../_static/jquery.cookie.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="../_static/cloud.js"></script>
+    
+
+    <link rel="shortcut icon" href="../_static/pyne_icon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"><script type="text/javascript">
+var ga_enabled = !$.cookie('disable-ga');
+if(ga_enabled){
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37452818-1']);
+  _gaq.push(['_setCookiePath', '/']);
+  _gaq.push(['_setDetectFlash', false]);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
+</script>
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Materials Compendium</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Materials Compendium</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="materials-compendium">
+<h1>Materials Compendium<a class="headerlink" href="#materials-compendium" title="Permalink to this heading">¶</a></h1>
+<p>In this tutorial, we will access data from the “Compendium of Material Composition Data for Radiation Transport Modeling” provided by the Pacific Northwest National Laboratory (PNNL). This data contains material properties, including material density, atom density, elemental and isotopic compositions provided as weight, atom fraction, and atom density. The data file is intended for radiation transport modeling and can be used with various radiation transport codes.</p>
+<section id="accessing-the-materials-compendium">
+<h2>Accessing the Materials Compendium<a class="headerlink" href="#accessing-the-materials-compendium" title="Permalink to this heading">¶</a></h2>
+<p>To access the data from the Materials Compendium, we will use the <code class="docutils literal notranslate"><span class="pre">MaterialsCompendium</span></code> module from <code class="docutils literal notranslate"><span class="pre">materials_compendium</span></code>. First, let’s import the required modules and see how many materials are in the compendium:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">materials_compendium</span> <span class="kn">import</span> <span class="n">MaterialsCompendium</span>
+
+<span class="c1"># Get the number of materials in the Compendium</span>
+<span class="n">num_materials</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MaterialsCompendium</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of materials in the Compendium:&quot;</span><span class="p">,</span> <span class="n">num_materials</span><span class="p">)</span>
+
+<span class="c1"># Get the name of the first material</span>
+<span class="n">first_material_name</span> <span class="o">=</span> <span class="n">MaterialsCompendium</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First material name:&quot;</span><span class="p">,</span> <span class="n">first_material_name</span><span class="p">)</span>
+
+<span class="c1"># Get the number of elements in the first material</span>
+<span class="n">num_elements_in_first_material</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MaterialsCompendium</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Elements</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of elements in the first material:&quot;</span><span class="p">,</span> <span class="n">num_elements_in_first_material</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of materials in the Compendium: 411
+First material name: Bone Equivalent Plastic, B-110
+Number of elements in the first material: 6
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-a-material-object">
+<h2>Creating a Material Object<a class="headerlink" href="#creating-a-material-object" title="Permalink to this heading">¶</a></h2>
+<p>To work with the material data more conveniently, PyNE provides a <code class="docutils literal notranslate"><span class="pre">Material</span></code> class. We can create a Material object from a material in the Compendium. The <code class="docutils literal notranslate"><span class="pre">Material</span></code> class allows us to access various properties and data associated with the material.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">materials_compendium.utils</span> <span class="kn">import</span> <span class="n">Material</span>
+
+<span class="c1"># Create a Material object from the first material in the Compendium</span>
+<span class="n">material_obj</span> <span class="o">=</span> <span class="n">Material</span><span class="p">(</span><span class="n">MaterialsCompendium</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Print the basic information about the material</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Material object:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">material_obj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+<span class="c1"># Print the complete properties of the material</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Complete material properties:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">material_obj</span><span class="o">.</span><span class="n">get_all</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Material object:
+Material Name: Bone Equivalent Plastic, B-110 
+Formula: None 
+Density: 1.785
+--------------------------------------------------
+Complete material properties:
+Material Name: Bone Equivalent Plastic, B-110 
+Acronym: B-110 
+Formula: None 
+Density: 1.785 
+Material Atom Density: 0.09797999999999998 
+Elements: H, C, N, O, F, Ca 
+Mat Num: 33 
+Material Weight: 0.000000 
+Comments:
+ The above density is estimated to be accurate to 3 significant digits. Uncertainties are not addressed.
+ The carbon fraction was adjusted from 0.3672 to 0.3673 to provide normalization to 1 
+Source: PNNL 
+Verification Notes:  
+References: Density and weight fractions in J. J. Spokas and D. R. White, A Conducting Plastic Simulating Cortical Bone at https://iopscience.iop.org/article/10.1088/0031-9155/27/1/012/pdf; with the carbon fraction adjusted from 0.3672 to 0.3673 to provide normalization to 1 
+Contact:
+ Name: Rebecca Detwiler 
+ Phone: 352-484-4040 
+ Email: Rebecca.Detwiler@pnnl.gov
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="accessing-element-and-isotope-information">
+<h2>Accessing Element and Isotope Information<a class="headerlink" href="#accessing-element-and-isotope-information" title="Permalink to this heading">¶</a></h2>
+<p>The Material class is integrated with other classes, such as <code class="docutils literal notranslate"><span class="pre">ElementInfo</span></code> and <code class="docutils literal notranslate"><span class="pre">IsotopeInfo</span></code>, to provide more detailed information about elements and isotopes present in the material.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get information about all elements in the material</span>
+<span class="n">elements_info</span> <span class="o">=</span> <span class="n">material_obj</span><span class="o">.</span><span class="n">get_elements</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elements information:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">elements_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Elements information:
+Index: 0 
+ Element: H 
+ ZAID: 1000 
+ Isotopes:H1, H2
+Index: 1 
+ Element: C 
+ ZAID: 6000 
+ Isotopes:C12, C13
+Index: 2 
+ Element: N 
+ ZAID: 7000 
+ Isotopes:N14, N15
+Index: 3 
+ Element: O 
+ ZAID: 8000 
+ Isotopes:O16, O17, O18
+Index: 4 
+ Element: F 
+ ZAID: 9000 
+ Isotopes:F19
+Index: 5 
+ Element: Ca 
+ ZAID: 20000 
+ Isotopes:Ca40, Ca42, Ca43, Ca44, Ca46, Ca48
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get complete information about the first isotope of the first element in the material</span>
+<span class="n">isotope_info</span> <span class="o">=</span> <span class="n">material_obj</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isotopes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_all</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Complete information of the first isotope of the first element:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">isotope_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Complete information of the first isotope of the first element:
+Isotope: H1 
+ ZAID: 1001 
+ Weight Percent: 0.999736 
+ Weight Fraction (Whole): 0.0354906363733931 
+ Isotopic Weight Fraction (Whole): 0.9997362358702283 
+ Weight Fraction: 0.035491 
+ Abundance: 0.999885 
+ Isotopic Atom Density: 0.037855 
+ Atomic Number (Whole): 1 
+ Atom Fraction: 0.386351 
+ Atomic Number: 1 
+ Isotopic Weight Fraction: 0.999736 
+ Relative Atomic Mass: 1.007825 
+ Relative Atomic Mass (Whole): 1.00782503223 
+ Isotopic Atom Fraction: 0.999885 
+ Abundance (Whole): 0.999885 
+ Isotopic Atom Fraction (Whole): 0.999885 
+ Atom Fraction (Whole): 0.386350546172812 
+ Isotopic Atom Density (Whole): 0.0378545221546933 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="accessing-materials-by-name-formula-or-acronym">
+<h2>Accessing Materials by Name, Formula, or Acronym<a class="headerlink" href="#accessing-materials-by-name-formula-or-acronym" title="Permalink to this heading">¶</a></h2>
+<p>We can also access specific materials directly from the Compendium using their names, formulas, or acronyms using the <code class="docutils literal notranslate"><span class="pre">from_name</span></code>, <code class="docutils literal notranslate"><span class="pre">from_formula</span></code>, and <code class="docutils literal notranslate"><span class="pre">from_acronym</span></code> functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mat2</span> <span class="o">=</span> <span class="n">Material</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s2">&quot;Liquid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Material &#39;Liquid&#39; not found. Did you mean:
+Water, Liquid
+</pre></div>
+</div>
+</div>
+</div>
+<p>It appears that the compendium does not contain information specifically about “Liquid” material. However, it does provide suggestions for related materials. Let’s explore one of the suggested materials instead.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mat2</span> <span class="o">=</span> <span class="n">Material</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s2">&quot;Water, Liquid&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mat2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Material Name: Water, Liquid 
+Formula: H2O 
+Density: 0.997
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also try to access a material by its chemical formula.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mat3</span> <span class="o">=</span> <span class="n">Material</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s2">&quot;UO2&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mat3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Material Name: Uranium Dioxide 
+Formula: UO2 
+Density: 10.96
+</pre></div>
+</div>
+</div>
+</div>
+<p>To get more specific data, we can use <code class="docutils literal notranslate"><span class="pre">get_[something]</span></code> functions. For example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mat3</span><span class="o">.</span><span class="n">get_comment</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mat3</span><span class="o">.</span><span class="n">get_source</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;CAS # 1344-57-6&#39;, &#39;Uranium isotopics assumed for LEU:  Wt% U234/235/236/238 =   0.0267/3.0/0.0138/96.9595.&#39;]
+BNL/ORNL
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="advanced-example">
+<h2>Advanced Example:<a class="headerlink" href="#advanced-example" title="Permalink to this heading">¶</a></h2>
+<p>As an advanced example, we can find materials that contain a specific isotope (e.g., U-235) in their compositions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the isotope you want to search for</span>
+<span class="n">target_isotope</span> <span class="o">=</span> <span class="s2">&quot;U235&quot;</span>
+
+<span class="c1"># Create an empty list to store the names of materials containing the target isotope</span>
+<span class="n">materials_with_isotope</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Loop through each material entry in the Compendium</span>
+<span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">MaterialsCompendium</span><span class="p">:</span>
+    <span class="c1"># Check if the target isotope is present in the material&#39;s isotopes</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">material</span><span class="o">.</span><span class="n">Elements</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">isotope</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">Isotopes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">isotope</span><span class="o">.</span><span class="n">Isotope</span> <span class="o">==</span> <span class="n">target_isotope</span><span class="p">:</span>
+                <span class="c1"># If the isotope is found in the material, add the material name to the list</span>
+                <span class="n">materials_with_isotope</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">material</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+
+<span class="c1"># Print the material names containing the target isotope</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Materials containing&quot;</span><span class="p">,</span> <span class="n">target_isotope</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials_with_isotope</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">material</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Materials containing U235
+Uranium Trioxide
+Uranium Dicarbide
+Uranium Hydride
+Uranium Oxide
+Uranium Nitride
+Uranium Tetrafluoride
+Uranium Dioxide
+Uranium Carbide
+Uranium Hexafluoride
+Uranyl Fluoride
+Uranyl Nitrate
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">¶</a></h2>
+<p>In this tutorial, we learned how to access and utilize data from the Materials Compendium. With this information, you can perform various analyses and simulations related to radiation transport modeling. PyNE provides powerful tools to extract and manipulate material properties, which can be valuable for researchers and engineers working in the field of nuclear and radiation engineering.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        <p class="logo"><a href="../index.html" title="index">
+          <img class="logo" src="../_static/pyne_icon_small.png" alt="Logo"/>
+        </a></p><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="../index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Materials Compendium</a><ul>
+<li><a class="reference internal" href="#accessing-the-materials-compendium">Accessing the Materials Compendium</a></li>
+<li><a class="reference internal" href="#creating-a-material-object">Creating a Material Object</a></li>
+<li><a class="reference internal" href="#accessing-element-and-isotope-information">Accessing Element and Isotope Information</a></li>
+<li><a class="reference internal" href="#accessing-materials-by-name-formula-or-acronym">Accessing Materials by Name, Formula, or Acronym</a></li>
+<li><a class="reference internal" href="#advanced-example">Advanced Example:</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Materials Compendium</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Materials Compendium</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer">
+    <div style="background-color:rgba(255,255,255,0.5);display:inline-block;border-radius:10px;padding:6px;">
+        
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2023, The PyNE Development Team.
+      Last updated on Aug 16, 2023.
+    </div><script type="text/javascript">
+    if(ga_enabled){
+        document.write("<div class=\"footer\">This page uses <a href=\"http://analytics.google.com\">Google Analytics</a> to collect statistics. ");
+        document.write("Click <button title=\"set cookie to disable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', 'true', {expires: 3650, path: '/'}); window.location.reload(); return false; \">here</button> to disable analytics for this site.");
+        document.write("</div>");
+    }else{
+        document.write("<div class=\"footer\">Google Analytics has been disabled. ");
+        document.write("Click <button title=\"set cookie to re-enable analytics for this site\" class=\"link\" onclick=\"$.cookie('disable-ga', null, {path: '/'}); window.location.reload(); return false; \">here</button> to re-enable analytics for this site.");
+    };
+</script>
+    <!-- cloud_sptheme 1.4 -->
+    </div>
+    </div>
+  </body>
+</html>

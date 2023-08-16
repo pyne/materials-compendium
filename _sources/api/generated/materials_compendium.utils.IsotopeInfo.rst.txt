@@ -1,0 +1,24 @@
+﻿IsotopeInfo
+===========
+
+.. currentmodule:: materials_compendium.utils
+
+.. autoclass:: IsotopeInfo
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~IsotopeInfo.get_all
+      
+      
+   
+   

@@ -1,0 +1,6 @@
+materials\_compendium.parse.Root.from\_dict
+===========================================
+
+.. currentmodule:: materials_compendium.parse
+
+.. automethod:: Root.from_dict

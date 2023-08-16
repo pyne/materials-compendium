@@ -1,0 +1,109 @@
+﻿Material
+========
+
+.. currentmodule:: materials_compendium.utils
+
+.. autoclass:: Material
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: .
+      :nosignatures:
+
+   
+      
+      
+      
+      ~Material.from_acronym
+      
+      
+      
+      
+      ~Material.from_formula
+      
+      
+      
+      
+      ~Material.from_name
+      
+      
+      
+      
+      ~Material.get_acronym
+      
+      
+      
+      
+      ~Material.get_all
+      
+      
+      
+      
+      ~Material.get_comment
+      
+      
+      
+      
+      ~Material.get_contact
+      
+      
+      
+      
+      ~Material.get_density
+      
+      
+      
+      
+      ~Material.get_elements
+      
+      
+      
+      
+      ~Material.get_formula
+      
+      
+      
+      
+      ~Material.get_mat_num
+      
+      
+      
+      
+      ~Material.get_material_atom_density
+      
+      
+      
+      
+      ~Material.get_material_weight
+      
+      
+      
+      
+      ~Material.get_mols
+      
+      
+      
+      
+      ~Material.get_name
+      
+      
+      
+      
+      ~Material.get_references
+      
+      
+      
+      
+      ~Material.get_source
+      
+      
+      
+      
+      ~Material.get_verification_notes
+      
+      
+   
+   
