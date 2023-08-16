@@ -10,3 +10,4 @@
 - Created a utils module to facilitate the parsing of the JSON data.
 - Created a workflow to test the materials compendium module.
 - Created a workflow to publish a release of the Materials Compendium project.
+- Created a workflow to publish docs to the gh-pages branch.
