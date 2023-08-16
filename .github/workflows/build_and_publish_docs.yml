@@ -3,6 +3,10 @@ name: Build and Publish Docs
 on:
   workflow_dispatch:
 
+  push:
+    tags:
+      - "*"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +22,7 @@ jobs:
 
       - name: Install Materials Compendium
         run: |
-            python -m pip install .
+          python -m pip install .
 
       - name: Install dependencies
         run: |
@@ -37,7 +41,7 @@ jobs:
       - name: Set commit message
         id: set_commit_message
         run: |
-         echo "::set-output name=message::Publish docs at $(date -u +'%Y-%m-%d %H:%M:%S') (Workflow Run: ${{ github.run_id }})"
+          echo "::set-output name=message::Publish docs at $(date -u +'%Y-%m-%d %H:%M:%S') (Workflow Run: ${{ github.run_id }})"
 
       - name: Publish documentation to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
