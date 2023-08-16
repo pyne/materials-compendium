@@ -34,10 +34,15 @@ jobs:
           cd docs
           make html
 
+      - name: Set commit message
+        id: set_commit_message
+        run: |
+         echo "::set-output name=message::Publish docs at $(date -u +'%Y-%m-%d %H:%M:%S') (Workflow Run: ${{ github.run_id }})"
+
       - name: Publish documentation to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: docs/build/html
-          commit-message: Publish docs at `$(date +'%Y-%m-%d %H:%M:%S')`
+          commit-message: ${{ steps.set_commit_message.outputs.message }}
           clean: true
