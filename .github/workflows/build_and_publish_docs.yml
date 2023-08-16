@@ -40,6 +40,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git checkout -b gh-pages
           git fetch origin gh-pages
+          git pull origin gh-pages
           cp -r docs/build/html/* .
           git add .
           timestamp=$(date +"%Y-%m-%d %H:%M:%S")
