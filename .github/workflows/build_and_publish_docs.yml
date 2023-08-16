@@ -39,4 +39,5 @@ jobs:
         with:
           branch: gh-pages
           folder: docs/build/html
-          commit-message: Publish docs
+          commit-message: Publish docs at `$(date +'%Y-%m-%d %H:%M:%S')`
+          clean: true
