@@ -7,9 +7,14 @@ on:
   pull_request:
     branches:
       - develop
+    paths-ignore:
+      - docs/**
+  
   push:
     branches:
       - develop
+    paths-ignore:
+      - docs/**
 
 jobs:
   main:
