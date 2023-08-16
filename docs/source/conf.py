@@ -109,12 +109,12 @@ html_short_title = "{project}".format(project=project)
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "../../img/pyne_icon_small.png"
+html_logo = "img/pyne_icon_small.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = "../../img/pyne_icon.ico"
+html_favicon = "img/pyne_icon.ico"
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
