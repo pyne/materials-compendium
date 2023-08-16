@@ -42,4 +42,3 @@ jobs:
           commit-message: |
             timestamp=$(date +"%Y-%m-%d %H:%M:%S")
             Publish docs at $timestamp
-          clean: true
