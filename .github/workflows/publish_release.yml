@@ -29,16 +29,6 @@ jobs:
         run: |
           python -m build
 
-      - name: Create a release
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create $GITHUB_REF_NAME \
-            -t Release $GITHUB_REF_NAME \
-            -F CHANGELOG \
-            ./dist/*
-
       - name: Publish package to PyPI
         if: success()
         env:
@@ -46,3 +36,13 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
           twine upload dist/*
+
+      - name: Create a release
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ github.ref }} \
+            -t "Release $GITHUB_REF_NAME" \
+            -F CHANGELOG \
+            ./dist/*
