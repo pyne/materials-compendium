@@ -35,14 +35,11 @@ jobs:
           make html
 
       - name: Publish documentation to gh-pages
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@users.noreply.github.com"
-          git stash 
-          git fetch origin gh-pages
-          git checkout gh-pages
-          cp -r docs/build/html/* .
-          git add .
-          timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-          git commit -m "Publish docs at $timestamp"
-          git push origin gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: build
+          commit-message: |
+            timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+            Publish docs at $timestamp
+          clean: true
