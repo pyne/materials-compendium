@@ -33,14 +33,12 @@ jobs:
         run: |
           cd docs
           make html
-          make html
 
       - name: Publish documentation to gh-pages
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@users.noreply.github.com"
           git checkout gh-pages
-          git pull origin gh-pages
           cp -r docs/build/html/* .
           git add .
           timestamp=$(date +"%Y-%m-%d %H:%M:%S")
