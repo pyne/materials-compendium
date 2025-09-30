@@ -596,7 +596,15 @@ class Material:
             element_data.append(element.element)
         elements_str = ", ".join(element_data)
         comments = "\n ".join(self.comment) if self.comment else ""
-        acronym = ", ".join(self.acronym) if self.acronym else ""
+        if self.acronym:
+            if isinstance(self.acronym, str):
+                acronym = self.acronym
+            elif isinstance(self.acronym, (list, tuple, set)):
+                acronym = ", ".join(str(a) for a in self.acronym)
+            else:
+                acronym = str(self.acronym)
+        else:
+            acronym = ""
         verification_notes = (
             "\n ".join(self.verification_notes) if self.verification_notes else ""
         )
@@ -920,7 +928,7 @@ class Material:
             elif (
                 datum.Acronym is not None
                 and difflib.SequenceMatcher(
-                    None, material_acronym, datum.Acronym
+                    None, str(material_acronym), str(datum.Acronym)
                 ).ratio()
                 > 0.6
             ):
