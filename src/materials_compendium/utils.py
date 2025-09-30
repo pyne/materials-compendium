@@ -823,7 +823,7 @@ class Material:
         return self.formula
 
     @classmethod
-    def from_name(cls, material_name):
+    def from_name(cls, material_name: str) -> 'Material':
         """
         Create a Material object by searching for a material using its name.
 
@@ -831,14 +831,14 @@ class Material:
             material_name (str): The name of the material to search for.
 
         Returns:
-            Material or None: The Material object if found, or None if not found.
+            Material: The Material object if found.
+            
+        Raises:
+            ValueError: If the material is not found in the compendium.
 
         Example:
             material = Material.from_name("Sample Material")
-            if material:
-                print(material.get_all())
-            else:
-                print("Material not found.")
+            print(material.get_all())
         """
         matched_materials = []
         for datum in MaterialsCompendium:
@@ -850,13 +850,13 @@ class Material:
 
         if matched_materials:
             suggestions = "\n".join(matched_materials)
-            print(f"Material '{material_name}' not found. Did you mean:\n{suggestions}")
+            error_msg = f"Material '{material_name}' not found. Did you mean:\n{suggestions}"
         else:
-            print(f"Material '{material_name}' not found in the data.")
-        return None
+            error_msg = f"Material '{material_name}' not found in the data."
+        raise ValueError(error_msg)
 
     @classmethod
-    def from_formula(cls, material_formula):
+    def from_formula(cls, material_formula: str) -> 'Material':
         """
         Create a Material object by searching for a material using its formula.
 
@@ -864,7 +864,7 @@ class Material:
             material_formula (str): The formula of the material to search for.
 
         Returns:
-            Material or None: The Material object if found, or None if not found.
+            Material: The Material object if found.
 
         Example:
             material = Material.from_formula("H2O")
@@ -890,15 +890,13 @@ class Material:
 
         if matched_materials:
             suggestions = "\n".join(matched_materials)
-            print(
-                f"Material with formula '{material_formula}' not found. Did you mean:\n{suggestions}"
-            )
+            error_msg = f"Material with formula '{material_formula}' not found. Did you mean:\n{suggestions}"
         else:
-            print(f"Material with formula '{material_formula}' not found in the data.")
-        return None
+            error_msg = f"Material with formula '{material_formula}' not found in the data."
+        raise ValueError(error_msg)
 
     @classmethod
-    def from_acronym(cls, material_acronym):
+    def from_acronym(cls, material_acronym: str) -> 'Material':
         """
         Create a Material object by searching for a material using its acronym.
 
@@ -906,7 +904,7 @@ class Material:
             material_acronym (str): The acronym of the material to search for.
 
         Returns:
-            Material or None: The Material object if found, or None if not found.
+            Material: The Material object if found.
 
         Example:
             material = Material.from_acronym("ABC")
@@ -931,9 +929,7 @@ class Material:
 
         if matched_materials:
             suggestions = "\n".join(matched_materials)
-            print(
-                f"Material with acronym '{material_acronym}' not found. Did you mean:\n{suggestions}"
-            )
+            error_msg = f"Material with acronym '{material_acronym}' not found. Did you mean:\n{suggestions}"
         else:
-            print(f"Material with acronym '{material_acronym}' not found in the data.")
-        return None
+            error_msg = f"Material with acronym '{material_acronym}' not found in the data."
+        raise ValueError(error_msg)
