@@ -643,7 +643,7 @@ class Material:
         """
         return self.comment
 
-    def get_density(self):
+    def get_density(self) -> float:
         """
         Get the density associated with the material.
 
@@ -658,7 +658,7 @@ class Material:
         """
         return self.density
 
-    def get_acronym(self):
+    def get_acronym(self) -> object:
         """
         Get the acronym associated with the material.
 
@@ -671,7 +671,7 @@ class Material:
         """
         return self.acronym
 
-    def get_elements(self):
+    def get_elements(self) -> str:
         """
         Get information about elements associated with the material.
 
@@ -689,7 +689,7 @@ class Material:
             ]
         )
 
-    def get_source(self):
+    def get_source(self) -> str:
         """
         Get the source of the material.
 
@@ -702,7 +702,7 @@ class Material:
         """
         return self.source
 
-    def get_references(self):
+    def get_references(self) -> list[str]:
         """
         Get the references associated with the material.
 
@@ -717,7 +717,7 @@ class Material:
         """
         return self.references
 
-    def get_contact(self):
+    def get_contact(self) -> str:
         """
         Get the contact information associated with the material.
 
@@ -734,7 +734,7 @@ class Material:
         contact = f"Contact:\n Name: {self.contact.name} \n Phone: {self.contact.phone} \n Email: {self.contact.email}"
         return contact
 
-    def get_material_atom_density(self):
+    def get_material_atom_density(self) -> float:
         """
         Get the material atom density.
 
@@ -747,7 +747,7 @@ class Material:
         """
         return self.material_atom_density
 
-    def get_mols(self):
+    def get_mols(self) -> str:
         """
         Get information about mols associated with the material.
 
@@ -765,7 +765,7 @@ class Material:
             ]
         )
 
-    def get_mat_num(self):
+    def get_mat_num(self) -> int:
         """
         Get the material number.
 
@@ -778,7 +778,7 @@ class Material:
         """
         return self.mat_num
 
-    def get_material_weight(self):
+    def get_material_weight(self) -> str:
         """
         Get the material weight.
 
@@ -791,7 +791,7 @@ class Material:
         """
         return self.material_weight
 
-    def get_name(self):
+    def get_name(self) -> str:
         """
         Get the name of the material.
 
@@ -804,7 +804,7 @@ class Material:
         """
         return self.name
 
-    def get_verification_notes(self):
+    def get_verification_notes(self) -> list[str]:
         """
         Get the verification notes associated with the material.
 
@@ -817,7 +817,7 @@ class Material:
         """
         return self.verification_notes
 
-    def get_formula(self):
+    def get_formula(self) -> str:
         """
         Get the formula of the material.
 
