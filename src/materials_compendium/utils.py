@@ -542,7 +542,7 @@ class Material:
         self.material_atom_density = datum.MaterialAtomDensity
         self.mols = [MolsInfo(mol_data) for mol_data in datum.Mols]
         self.mat_num = datum.MatNum
-        self.material_weight = datum.MaterialWeight
+        self.material_weight = float(datum.MaterialWeight)
         self.name = datum.Name
         self.verification_notes = datum.Verification_Notes
         self.formula = datum.Formula
@@ -778,16 +778,16 @@ class Material:
         """
         return self.mat_num
 
-    def get_material_weight(self) -> str:
+    def get_material_weight(self) -> float:
         """
         Get the material weight.
 
         Returns:
-            str: The material weight.
+            float: The material weight.
 
         Example:
             print(material.get_material_weight())
-            # Output: "10"
+            # Output: 10.0
         """
         return self.material_weight
 
