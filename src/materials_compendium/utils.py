@@ -542,7 +542,7 @@ class Material:
         self.material_atom_density = datum.MaterialAtomDensity
         self.mols = [MolsInfo(mol_data) for mol_data in datum.Mols]
         self.mat_num = datum.MatNum
-        self.material_weight = datum.MaterialWeight
+        self.material_weight = float(datum.MaterialWeight)
         self.name = datum.Name
         self.verification_notes = datum.Verification_Notes
         self.formula = datum.Formula
@@ -596,7 +596,15 @@ class Material:
             element_data.append(element.element)
         elements_str = ", ".join(element_data)
         comments = "\n ".join(self.comment) if self.comment else ""
-        acronym = ", ".join(self.acronym) if self.acronym else ""
+        if self.acronym:
+            if isinstance(self.acronym, str):
+                acronym = self.acronym
+            elif isinstance(self.acronym, (list, tuple, set)):
+                acronym = ", ".join(str(a) for a in self.acronym)
+            else:
+                acronym = str(self.acronym)
+        else:
+            acronym = ""
         verification_notes = (
             "\n ".join(self.verification_notes) if self.verification_notes else ""
         )
@@ -635,7 +643,7 @@ class Material:
         """
         return self.comment
 
-    def get_density(self):
+    def get_density(self) -> float:
         """
         Get the density associated with the material.
 
@@ -650,7 +658,7 @@ class Material:
         """
         return self.density
 
-    def get_acronym(self):
+    def get_acronym(self) -> object:
         """
         Get the acronym associated with the material.
 
@@ -663,7 +671,7 @@ class Material:
         """
         return self.acronym
 
-    def get_elements(self):
+    def get_elements(self) -> str:
         """
         Get information about elements associated with the material.
 
@@ -681,7 +689,7 @@ class Material:
             ]
         )
 
-    def get_source(self):
+    def get_source(self) -> str:
         """
         Get the source of the material.
 
@@ -694,7 +702,7 @@ class Material:
         """
         return self.source
 
-    def get_references(self):
+    def get_references(self) -> list[str]:
         """
         Get the references associated with the material.
 
@@ -709,7 +717,7 @@ class Material:
         """
         return self.references
 
-    def get_contact(self):
+    def get_contact(self) -> str:
         """
         Get the contact information associated with the material.
 
@@ -726,7 +734,7 @@ class Material:
         contact = f"Contact:\n Name: {self.contact.name} \n Phone: {self.contact.phone} \n Email: {self.contact.email}"
         return contact
 
-    def get_material_atom_density(self):
+    def get_material_atom_density(self) -> float:
         """
         Get the material atom density.
 
@@ -739,7 +747,7 @@ class Material:
         """
         return self.material_atom_density
 
-    def get_mols(self):
+    def get_mols(self) -> str:
         """
         Get information about mols associated with the material.
 
@@ -757,7 +765,7 @@ class Material:
             ]
         )
 
-    def get_mat_num(self):
+    def get_mat_num(self) -> int:
         """
         Get the material number.
 
@@ -770,20 +778,20 @@ class Material:
         """
         return self.mat_num
 
-    def get_material_weight(self):
+    def get_material_weight(self) -> float:
         """
         Get the material weight.
 
         Returns:
-            str: The material weight.
+            float: The material weight.
 
         Example:
             print(material.get_material_weight())
-            # Output: "10"
+            # Output: 10.0
         """
         return self.material_weight
 
-    def get_name(self):
+    def get_name(self) -> str:
         """
         Get the name of the material.
 
@@ -796,7 +804,7 @@ class Material:
         """
         return self.name
 
-    def get_verification_notes(self):
+    def get_verification_notes(self) -> list[str]:
         """
         Get the verification notes associated with the material.
 
@@ -809,7 +817,7 @@ class Material:
         """
         return self.verification_notes
 
-    def get_formula(self):
+    def get_formula(self) -> str:
         """
         Get the formula of the material.
 
@@ -823,7 +831,7 @@ class Material:
         return self.formula
 
     @classmethod
-    def from_name(cls, material_name):
+    def from_name(cls, material_name: str) -> 'Material':
         """
         Create a Material object by searching for a material using its name.
 
@@ -831,14 +839,14 @@ class Material:
             material_name (str): The name of the material to search for.
 
         Returns:
-            Material or None: The Material object if found, or None if not found.
+            Material: The Material object if found.
+            
+        Raises:
+            ValueError: If the material is not found in the compendium.
 
         Example:
             material = Material.from_name("Sample Material")
-            if material:
-                print(material.get_all())
-            else:
-                print("Material not found.")
+            print(material.get_all())
         """
         matched_materials = []
         for datum in MaterialsCompendium:
@@ -850,13 +858,13 @@ class Material:
 
         if matched_materials:
             suggestions = "\n".join(matched_materials)
-            print(f"Material '{material_name}' not found. Did you mean:\n{suggestions}")
+            error_msg = f"Material '{material_name}' not found. Did you mean:\n{suggestions}"
         else:
-            print(f"Material '{material_name}' not found in the data.")
-        return None
+            error_msg = f"Material '{material_name}' not found in the data."
+        raise ValueError(error_msg)
 
     @classmethod
-    def from_formula(cls, material_formula):
+    def from_formula(cls, material_formula: str) -> 'Material':
         """
         Create a Material object by searching for a material using its formula.
 
@@ -864,7 +872,7 @@ class Material:
             material_formula (str): The formula of the material to search for.
 
         Returns:
-            Material or None: The Material object if found, or None if not found.
+            Material: The Material object if found.
 
         Example:
             material = Material.from_formula("H2O")
@@ -890,15 +898,13 @@ class Material:
 
         if matched_materials:
             suggestions = "\n".join(matched_materials)
-            print(
-                f"Material with formula '{material_formula}' not found. Did you mean:\n{suggestions}"
-            )
+            error_msg = f"Material with formula '{material_formula}' not found. Did you mean:\n{suggestions}"
         else:
-            print(f"Material with formula '{material_formula}' not found in the data.")
-        return None
+            error_msg = f"Material with formula '{material_formula}' not found in the data."
+        raise ValueError(error_msg)
 
     @classmethod
-    def from_acronym(cls, material_acronym):
+    def from_acronym(cls, material_acronym: str) -> 'Material':
         """
         Create a Material object by searching for a material using its acronym.
 
@@ -906,7 +912,7 @@ class Material:
             material_acronym (str): The acronym of the material to search for.
 
         Returns:
-            Material or None: The Material object if found, or None if not found.
+            Material: The Material object if found.
 
         Example:
             material = Material.from_acronym("ABC")
@@ -922,7 +928,7 @@ class Material:
             elif (
                 datum.Acronym is not None
                 and difflib.SequenceMatcher(
-                    None, material_acronym, datum.Acronym
+                    None, str(material_acronym), str(datum.Acronym)
                 ).ratio()
                 > 0.6
             ):
@@ -931,9 +937,7 @@ class Material:
 
         if matched_materials:
             suggestions = "\n".join(matched_materials)
-            print(
-                f"Material with acronym '{material_acronym}' not found. Did you mean:\n{suggestions}"
-            )
+            error_msg = f"Material with acronym '{material_acronym}' not found. Did you mean:\n{suggestions}"
         else:
-            print(f"Material with acronym '{material_acronym}' not found in the data.")
-        return None
+            error_msg = f"Material with acronym '{material_acronym}' not found in the data."
+        raise ValueError(error_msg)
